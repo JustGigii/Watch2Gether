@@ -16,10 +16,11 @@ public partial class MasterPage : System.Web.UI.MasterPage
             {
                 Menu1.Items.Add(new MenuItem("Register", "Register", null, "~/Register.aspx"));
                 Menu1.Items.Add(new MenuItem("Log in", "Login", null, "~/login.aspx"));
-            }
+			}
             else
             {
-                Menu1.Items.Add(new MenuItem("UpdateUser", "UpdateUser", null, "~/UpdateUser.aspx"));
+                Menu1.Items.Add(new MenuItem("Update User", "UpdateUser", null, "~/UpdateUser.aspx"));
+				Menu1.Items.Add(new MenuItem("Friend List", "FriendList", null, "~/FriendList.aspx"));
 				Menu1.Items.Add(new MenuItem("Log Out", "LogOut", null, "~/LogOut.aspx"));
 				if (((UserDetail)Session["User"]).KindUser >= 5)
                     Menu1.Items.Add(new MenuItem("CreateGroupe", "CreateGroupe", null, "~/CreateGroupe.aspx"));
@@ -61,11 +62,18 @@ public partial class MasterPage : System.Web.UI.MasterPage
 	}
 	public void PopIvateGroup()
 	{//מציג את כל הקבוצו שהוזמנתה
+		this.ListBoxInvateGroup.Items.Clear();
 		GroupServies Gp = new GroupServies();
 		DataSet ds = Gp.ShowInvateGroup(((UserDetail)Session["User"]).UserId);
 		this.ListBoxInvateGroup.DataSource = ds;
 		this.ListBoxInvateGroup.DataTextField=ds.Tables[0].Columns[1].ToString();
 		this.ListBoxInvateGroup.DataValueField=ds.Tables[0].Columns[0].ToString();
 		this.ListBoxInvateGroup.DataBind();
+	}
+
+	protected void ListBoxInvateGroup_SelectedIndexChanged(object sender, EventArgs e)
+	{//מאשר הזמנה לקבוצה
+		GroupServies Gp = new GroupServies();
+		Gp.UpdateToWating(int.Parse(ListBoxInvateGroup.SelectedValue), ((UserDetail)Session["User"]).UserId, 1);
 	}
 }

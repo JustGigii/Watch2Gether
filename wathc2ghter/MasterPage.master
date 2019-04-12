@@ -24,7 +24,7 @@
                  </asp:ContentPlaceHolder>  
                 </td>
                  <td  BorderStyle="Solid" Width="10%">
-                     <asp:ListBox ID="ListBoxInvateGroup" runat="server" OnSelectedIndexChanged="ListBoxInvate_SelectedIndexChanged" AutoPostBack="True">
+                     <asp:ListBox ID="ListBoxInvateGroup" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ListBoxInvateGroup_SelectedIndexChanged">
                          <asp:ListItem>Not invite yet</asp:ListItem>
                      </asp:ListBox>
                      <asp:ListBox ID="ListBoxInvate" runat="server" OnSelectedIndexChanged="ListBoxInvate_SelectedIndexChanged" AutoPostBack="True">
