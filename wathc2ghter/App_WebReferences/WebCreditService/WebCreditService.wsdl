@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="GetCreditCompanies">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetCreditCompaniesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCreditCompaniesResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="insertTransaction">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="transaction" type="tns:Transaction" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Transaction">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="TransactionID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="DatePosted" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="Amount" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="Payee" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CreditNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TransactioType" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="insertTransactionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="insertTransactionResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckCard">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="card" type="tns:CardDetails" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="CardDetails">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Transactions" type="tns:ArrayOfTransaction" />
+          <s:element minOccurs="0" maxOccurs="1" name="CardID" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CreditAmount" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="User" type="tns:UserDetails" />
+          <s:element minOccurs="0" maxOccurs="1" name="ExpirationDate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CompanyCode" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="SecurityNumber" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfTransaction">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Transaction" nillable="true" type="tns:Transaction" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="UserDetails">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CheckCardResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CheckCardResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetCreditCompaniesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCreditCompanies" />
+  </wsdl:message>
+  <wsdl:message name="GetCreditCompaniesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCreditCompaniesResponse" />
+  </wsdl:message>
+  <wsdl:message name="insertTransactionSoapIn">
+    <wsdl:part name="parameters" element="tns:insertTransaction" />
+  </wsdl:message>
+  <wsdl:message name="insertTransactionSoapOut">
+    <wsdl:part name="parameters" element="tns:insertTransactionResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckCardSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckCard" />
+  </wsdl:message>
+  <wsdl:message name="CheckCardSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckCardResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebCreditServiceSoap">
+    <wsdl:operation name="GetCreditCompanies">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Credit Companies </wsdl:documentation>
+      <wsdl:input message="tns:GetCreditCompaniesSoapIn" />
+      <wsdl:output message="tns:GetCreditCompaniesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="insertTransaction">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">insert new Transaction </wsdl:documentation>
+      <wsdl:input message="tns:insertTransactionSoapIn" />
+      <wsdl:output message="tns:insertTransactionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckCard">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Check Card Details</wsdl:documentation>
+      <wsdl:input message="tns:CheckCardSoapIn" />
+      <wsdl:output message="tns:CheckCardSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebCreditServiceSoap" type="tns:WebCreditServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetCreditCompanies">
+      <soap:operation soapAction="http://tempuri.org/GetCreditCompanies" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="insertTransaction">
+      <soap:operation soapAction="http://tempuri.org/insertTransaction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckCard">
+      <soap:operation soapAction="http://tempuri.org/CheckCard" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebCreditServiceSoap12" type="tns:WebCreditServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetCreditCompanies">
+      <soap12:operation soapAction="http://tempuri.org/GetCreditCompanies" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="insertTransaction">
+      <soap12:operation soapAction="http://tempuri.org/insertTransaction" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckCard">
+      <soap12:operation soapAction="http://tempuri.org/CheckCard" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebCreditService">
+    <wsdl:port name="WebCreditServiceSoap" binding="tns:WebCreditServiceSoap">
+      <soap:address location="http://localhost:63089/WebCreditService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebCreditServiceSoap12" binding="tns:WebCreditServiceSoap12">
+      <soap12:address location="http://localhost:63089/WebCreditService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

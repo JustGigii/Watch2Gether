@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="GetTheCatlog">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetTheCatlogResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTheCatlogResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMoviesDetails">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MovieId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMoviesDetailsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMoviesDetailsResult" type="tns:MovieDetails" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="MovieDetails">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="MovieId" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="MoivesName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TrailerAdd" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Addres" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="YearRate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Category" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UrlPicture" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Date" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="PlayersNRevive">
+            <s:complexType>
+              <s:sequence>
+                <s:element ref="s:schema" />
+                <s:any />
+              </s:sequence>
+            </s:complexType>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetURLAddress">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MovieId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetURLAddressResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetURLAddressResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMoviesName">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetMoviesNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMoviesNameResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMoiveLenght">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetMoiveLenghtResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetMoiveLenghtResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetTheCatlogSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTheCatlog" />
+  </wsdl:message>
+  <wsdl:message name="GetTheCatlogSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTheCatlogResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMoviesDetailsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMoviesDetails" />
+  </wsdl:message>
+  <wsdl:message name="GetMoviesDetailsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMoviesDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetURLAddressSoapIn">
+    <wsdl:part name="parameters" element="tns:GetURLAddress" />
+  </wsdl:message>
+  <wsdl:message name="GetURLAddressSoapOut">
+    <wsdl:part name="parameters" element="tns:GetURLAddressResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMoviesNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMoviesName" />
+  </wsdl:message>
+  <wsdl:message name="GetMoviesNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMoviesNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMoiveLenghtSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMoiveLenght" />
+  </wsdl:message>
+  <wsdl:message name="GetMoiveLenghtSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMoiveLenghtResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebServiceSoap">
+    <wsdl:operation name="GetTheCatlog">
+      <wsdl:input message="tns:GetTheCatlogSoapIn" />
+      <wsdl:output message="tns:GetTheCatlogSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMoviesDetails">
+      <wsdl:input message="tns:GetMoviesDetailsSoapIn" />
+      <wsdl:output message="tns:GetMoviesDetailsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetURLAddress">
+      <wsdl:input message="tns:GetURLAddressSoapIn" />
+      <wsdl:output message="tns:GetURLAddressSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMoviesName">
+      <wsdl:input message="tns:GetMoviesNameSoapIn" />
+      <wsdl:output message="tns:GetMoviesNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMoiveLenght">
+      <wsdl:input message="tns:GetMoiveLenghtSoapIn" />
+      <wsdl:output message="tns:GetMoiveLenghtSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebServiceSoap" type="tns:WebServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetTheCatlog">
+      <soap:operation soapAction="http://tempuri.org/GetTheCatlog" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMoviesDetails">
+      <soap:operation soapAction="http://tempuri.org/GetMoviesDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetURLAddress">
+      <soap:operation soapAction="http://tempuri.org/GetURLAddress" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMoviesName">
+      <soap:operation soapAction="http://tempuri.org/GetMoviesName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMoiveLenght">
+      <soap:operation soapAction="http://tempuri.org/GetMoiveLenght" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WebServiceSoap12" type="tns:WebServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetTheCatlog">
+      <soap12:operation soapAction="http://tempuri.org/GetTheCatlog" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMoviesDetails">
+      <soap12:operation soapAction="http://tempuri.org/GetMoviesDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetURLAddress">
+      <soap12:operation soapAction="http://tempuri.org/GetURLAddress" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMoviesName">
+      <soap12:operation soapAction="http://tempuri.org/GetMoviesName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMoiveLenght">
+      <soap12:operation soapAction="http://tempuri.org/GetMoiveLenght" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebService">
+    <wsdl:port name="WebServiceSoap" binding="tns:WebServiceSoap">
+      <soap:address location="http://localhost:53069/WebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WebServiceSoap12" binding="tns:WebServiceSoap12">
+      <soap12:address location="http://localhost:53069/WebService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
