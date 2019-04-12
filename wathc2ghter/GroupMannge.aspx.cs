@@ -97,7 +97,7 @@ public partial class GroupMannge : System.Web.UI.Page
 		}
 
 	protected void GridViewPeopleOnGroup_RowDataBound(object sender, GridViewRowEventArgs e)
-	{
+	{//מטפל בכפתורים של לעיף בן אדם המקבוצה או לאשיר אותו
 		if (e.Row.RowType != DataControlRowType.Header && e.Row.RowType != DataControlRowType.Footer && e.Row.RowType != DataControlRowType.Pager)
 		{
 			if (e.Row.Cells[3].Text == "Online")

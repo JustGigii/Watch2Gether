@@ -241,16 +241,16 @@ public class GroupServies
 	public void UpdateToWating(int GroupId, int UserId,int Status)
 	{
 		try
-		{
+		{//מעדען את הסטטוס של האדם עם הוא מנמצא בקבוצה או לא
 			Connction.Open();
 			command = new OleDbCommand("MakeOnline", Connction);
 			command.CommandType = CommandType.StoredProcedure;
 			OleDbParameter parm;
-			parm = command.Parameters.Add("@Status", OleDbType.BSTR);
+			parm = command.Parameters.Add("@Status", OleDbType.Integer);
 			parm.Value = Status;
-			parm = command.Parameters.Add("@UserId", OleDbType.BSTR);
+			parm = command.Parameters.Add("@UserId", OleDbType.Integer);
 			parm.Value = UserId;
-			parm = command.Parameters.Add("@GroupId", OleDbType.BSTR);
+			parm = command.Parameters.Add("@GroupId", OleDbType.Integer);
 			parm.Value = GroupId;
 			command.ExecuteNonQuery();
 
@@ -261,5 +261,26 @@ public class GroupServies
 		}
 		finally { Connction.Close(); }
 	}
-	
+	public DataSet ShowInvateGroup(int UserId)
+	{
+		try
+		{//מעדען את הסטטוס של האדם עם הוא מנמצא בקבוצה או לא
+			Connction.Open();
+			command = new OleDbCommand("InvateGroup", Connction);
+			command.CommandType = CommandType.StoredProcedure;
+			OleDbParameter parm;
+			parm = command.Parameters.Add("@UserId", OleDbType.Integer);
+			parm.Value = UserId;
+			adapter = new OleDbDataAdapter(command);
+			ds = new DataSet();
+			adapter.Fill(ds);
+			return ds;
+		}
+		catch (Exception err)
+		{
+			throw err;
+		}
+		finally { Connction.Close(); }
+	}
+
 }

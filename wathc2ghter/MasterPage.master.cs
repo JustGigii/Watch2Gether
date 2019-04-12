@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data;
 
 public partial class MasterPage : System.Web.UI.MasterPage
 {
@@ -39,6 +40,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
                         }
                     }
                 }
+				PopIvateGroup();
 			}
             List<UserDetail> User = (List<UserDetail>)Page.Application["Users"];
             if (User.Count != 0)
@@ -56,5 +58,14 @@ public partial class MasterPage : System.Web.UI.MasterPage
 	protected void ListBoxInvate_SelectedIndexChanged(object sender, EventArgs e)
 	{
 		Response.Redirect("TheViewMovie.aspx?m=" + ListBoxInvate.SelectedValue);
+	}
+	public void PopIvateGroup()
+	{//מציג את כל הקבוצו שהוזמנתה
+		GroupServies Gp = new GroupServies();
+		DataSet ds = Gp.ShowInvateGroup(((UserDetail)Session["User"]).UserId);
+		this.ListBoxInvateGroup.DataSource = ds;
+		this.ListBoxInvateGroup.DataTextField=ds.Tables[0].Columns[1].ToString();
+		this.ListBoxInvateGroup.DataValueField=ds.Tables[0].Columns[0].ToString();
+		this.ListBoxInvateGroup.DataBind();
 	}
 }
