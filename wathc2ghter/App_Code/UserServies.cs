@@ -119,6 +119,32 @@ public class UserServies
 		}
 		finally { MyConnction.Close(); }
 	}
+	public int IsUserValidName(string name)
+	{//בודק עם המשתמש נמצעה בדטה בייס עם נמצאה אז שולח את מספר של המשתמש
+		try
+		{
+			MyConnction.Open();
+			Mycommand = new OleDbCommand("IsEnbaleOnlyName", MyConnction);
+			Mycommand.CommandType = CommandType.StoredProcedure;
+			OleDbParameter parm;
+			parm = Mycommand.Parameters.Add("@user", OleDbType.BSTR);
+			parm.Value = name;
+			if (Mycommand.ExecuteScalar() != null)
+			{
+				return int.Parse(Mycommand.ExecuteScalar().ToString());
+			}
+			else
+			{
+				Exception Er = new Exception("username incorect");
+				throw Er;
+			}
+		}
+		catch (Exception Err)
+		{
+			throw Err;
+		}
+		finally { MyConnction.Close(); }
+	}
 	public DataSet FillAllUsers(DataSet Dataset)
 	{//הפעעולה ממעלה את כל בדתה סט בטבלת יוסרס
 		try
@@ -297,6 +323,23 @@ public class UserServies
 		{
 			MyConnction.Open();
 			Mycommand = new OleDbCommand("DeleteFriend", MyConnction);
+			Mycommand.CommandType = CommandType.StoredProcedure;
+			OleDbParameter parm;
+			parm = Mycommand.Parameters.Add("@UserId", OleDbType.BSTR);
+			parm.Value = UserId;
+			parm = Mycommand.Parameters.Add("@FriendId", OleDbType.BSTR);
+			parm.Value = FrendsId;
+			Mycommand.ExecuteNonQuery();
+		}
+		catch (Exception err) { throw err; }
+		finally { MyConnction.Close(); }
+	}
+	public void AddFriends(int UserId, int FrendsId)
+	{//פעולה מוחק חבר מי מאגר החברים
+		try
+		{
+			MyConnction.Open();
+			Mycommand = new OleDbCommand("AddFriends", MyConnction);
 			Mycommand.CommandType = CommandType.StoredProcedure;
 			OleDbParameter parm;
 			parm = Mycommand.Parameters.Add("@UserId", OleDbType.BSTR);

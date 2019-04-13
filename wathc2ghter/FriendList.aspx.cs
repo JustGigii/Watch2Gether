@@ -31,27 +31,32 @@ public partial class FriendList : System.Web.UI.Page
 	}
 
 	protected void GridViewFriends_RowDeleting(object sender, GridViewDeleteEventArgs e)
-	{
+	{//מיחקה חבר מהfrendslist
 		UserCommand.DeleteUser(((UserDetail)Session["User"]).UserId, int.Parse(this.GridViewFriends.Rows[e.RowIndex].Cells[1].Text));
 		GridViewFriends.EditIndex = -1;
+		LabelErr.Text = "This Member Delete from you Frendslist";
 		PopGrid();
 	}
 
-	protected void GridViewFriends_RowDataBound(object sender, GridViewRowEventArgs e)
-	{
-		if (e.Row.RowType != DataControlRowType.Header && e.Row.RowType != DataControlRowType.Footer && e.Row.RowType != DataControlRowType.Pager)
-		{
-			Button Del = (Button)e.Row.Cells[3].FindControl("Button1");
-			Del.Attributes["onclick"] = "javascript:return confirm('r u sure delete ?')"; ;
-		}
-	}
+	//protected void GridViewFriends_RowDataBound(object sender, GridViewRowEventArgs e)
+	//{//מוסיף אזהרה  לפני מחיקת משתמש
+	//	//if (e.Row.RowType != DataControlRowType.Header && e.Row.RowType != DataControlRowType.Footer && e.Row.RowType != DataControlRowType.Pager)
+	//	//{
+	//	//	Button Del = (Button)e.Row.Cells[3].FindControl("Button1");
+	//	//	Del.Attributes["onclick"] = "javascript:return confirm('r u sure delete ?')"; ;
+	//	//}
+	//}
 
 	protected void ButtonSerchFrends_Click(object sender, EventArgs e)
 	{
-		if (UserCommand.IsUserValid(this.TextBoxSerchFirend.Text,)
-		{
-
+		try
+		{//מוסיף חבר חדש
+			int FrendsId = UserCommand.IsUserValidName(this.TextBoxSerchFirend.Text);
+			UserCommand.AddFriends(((UserDetail)Session["User"]).UserId, FrendsId);
+			this.LabelErr.Text = "The User Added For Your FrendsList";
+			PopGrid();
 		}
+		catch(Exception Err) { this.LabelErr.Text = Err.Message; }
 	
 	}
 }
