@@ -13,8 +13,9 @@
         ImDb.WebService ImDb = new ImDb.WebService();
         DS = ImDb.GetTheCatlog();
         Application["Catlog"] = DS;
-
         Application["Rooms"] = new GroupsDetails();
+        TimerW2G.startTimer();
+        
     }
 
     void Application_End(object sender, EventArgs e)

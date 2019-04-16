@@ -14,10 +14,13 @@
         
 </video>
     <asp:TextBox ID="LabelCurrent" runat="server" Text="0"  Visible="true"></asp:TextBox>
+    <asp:TextBox ID="LabelEend" runat="server" Text="0"  Visible="true"></asp:TextBox>
    
     <script>
         var video = document.getElementById('myVideo');
-
+        var Ends = document.getElementById('ContentPlaceHolder1_LabelEend');
+        Ends.value = video.duration;
+        playVideo();
 
         function playVideo()
         {
@@ -29,17 +32,27 @@
             video.play();
         }
 
-        function pauseVideo()
-        {
-         //   alert("stop");
-            //alert(Time);
-            video.pause();
-           Time = video.currentTime;
-           var timeS=   document.getElementById('ContentPlaceHolder1_LabelCurrent');
-           timeS.value=Time;
-         //  alert(timeS.value);
-        }
+        //function pauseVideo()
+        //{
+        //    //alert("stop");
+        //    //alert(Time);
+        //    video.pause();
+        //   Time = video.currentTime;
+        //   var timeS=   document.getElementById('ContentPlaceHolder1_LabelCurrent');
+        //   timeS.value=Time;
+        // //  alert(timeS.value);
+        //}
 
     </script>
+    <asp:ScriptManager ID="ScriptManager1" runat="server">
+    </asp:ScriptManager>
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+      <ContentTemplate>
+          <asp:TextBox ID="TextBoxChat" runat="server" TextMode="MultiLine" Height="185px" ReadOnly="True"></asp:TextBox>
+          <br> </br>
+          <asp:TextBox ID="TextBoxMessge" runat="server"></asp:TextBox><asp:Button ID="ButtonSubmit" runat="server" Text="Send" />
+      </ContentTemplate>
+    </asp:UpdatePanel>
     </asp:Content>
+
 <%--https://codepen.io/Gowiphi/pen/stmqp--%>

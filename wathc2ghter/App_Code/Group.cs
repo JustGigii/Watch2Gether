@@ -17,8 +17,11 @@ public class Group
     List<int> UserMembers;//חברי הקבוצה
     int _CurrentTime;//נקודת הצפייה תחלילת הסרט היא 0
     int _MovieID;//מספר הסרט משצה ע"י ה-webservice
+	string _Chat; // הציג את השיחה בין האנשים באתר
+	int _EndMovie;//מחזיר מתי הסרט נגמר
 	public Group()
 	{
+		_CurrentTime = 0;
         UserMembers = new List<int>();
 		//
 		// TODO: Add constructor logic here
@@ -90,4 +93,14 @@ public class Group
         
         return ok;
     }
+	public String Chat
+	{
+		get { return _Chat; }
+		set { _Chat += value; }
+	}
+	public int EndMovie
+	{
+		get { return this._EndMovie; }
+		set { this._EndMovie = value; }
+	}
 }

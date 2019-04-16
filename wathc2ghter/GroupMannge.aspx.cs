@@ -118,4 +118,14 @@ public partial class GroupMannge : System.Web.UI.Page
 
 		}
 	}
+
+	protected void ButtonStatus_Click(object sender, EventArgs e)
+	{
+		GP.DelGroup(((Group)Session["Group"]).GroupId);
+	}
+
+	protected void ButtonUpdate_Click(object sender, EventArgs e)
+	{
+		GP.UpdateGroupGroup(((Group)Session["Group"]).GroupId,this.TextBoxGroupName.Text,int.Parse(this.DropDownListKindGourp.SelectedValue));
+	}
 }

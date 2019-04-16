@@ -15,6 +15,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <asp:RadioButtonList ID="RadioButtonListGroup" runat="server" AutoPostBack="True" OnSelectedIndexChanged="RadioButtonListGroup_SelectedIndexChanged">
     </asp:RadioButtonList>
+    
     <asp:Table ID="TablePageInterFace" runat="server">
         <asp:TableRow>
             
@@ -26,9 +27,11 @@
             <asp:TableCell><asp:DropDownList ID="DropDownListKindGourp" runat="server"></asp:DropDownList></asp:TableCell>
         </asp:TableRow>
         <asp:TableRow>
-            <asp:TableCell class="auto-style2"> <asp:Button ID="ButtonStatus" runat="server" Text="Press To Delete The Group"></asp:Button> </asp:TableCell>
+            <asp:TableCell class="auto-style2"> <asp:Button ID="ButtonStatus" runat="server" Text="Press To Delete The Group" OnClick="ButtonStatus_Click"></asp:Button></asp:TableCell>
+          <asp:TableCell> <asp:Button ID="ButtonUpdate" runat="server" Text="Submit" OnClick="ButtonUpdate_Click" /></asp:TableCell>
         </asp:TableRow>
    </asp:Table>
+    
     <asp:GridView ID="GridViewPeopleOnGroup" runat="server" BackColor="White" BorderColor="#E7E7FF" BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Horizontal" AutoGenerateColumns="False" OnRowCommand="GridViewPeopleOnGroup_RowCommand" OnRowDataBound="GridViewPeopleOnGroup_RowDataBound">
         <AlternatingRowStyle BackColor="#F7F7F7" />
         <Columns>

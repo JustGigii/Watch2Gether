@@ -246,12 +246,12 @@ public class GroupServies
 			command = new OleDbCommand("MakeOnline", Connction);
 			command.CommandType = CommandType.StoredProcedure;
 			OleDbParameter parm;
-			parm = command.Parameters.Add("@Status", OleDbType.Integer);
-			parm.Value = Status;
-			parm = command.Parameters.Add("@UserId", OleDbType.Integer);
-			parm.Value = UserId;
 			parm = command.Parameters.Add("@GroupId", OleDbType.Integer);
 			parm.Value = GroupId;
+			parm = command.Parameters.Add("@UserId", OleDbType.Integer);
+			parm.Value = UserId;
+			parm = command.Parameters.Add("@Status", OleDbType.Integer);
+			parm.Value = Status;
 			command.ExecuteNonQuery();
 
 		}
@@ -282,5 +282,46 @@ public class GroupServies
 		}
 		finally { Connction.Close(); }
 	}
+	public void DelGroup(int GroupId)
+	{//הפעולה מוחקת קבוצות
 
+		try
+		{//מעדען את הסטטוס של האדם עם הוא מנמצא בקבוצה או לא
+			Connction.Open();
+			command = new OleDbCommand("DelGroup", Connction);
+			command.CommandType = CommandType.StoredProcedure;
+			OleDbParameter parm;
+			parm = command.Parameters.Add("@GroupId", OleDbType.Integer);
+			parm.Value = GroupId;
+			command.ExecuteNonQuery();
+		}
+		catch (Exception err)
+		{
+			throw err;
+		}
+		finally { Connction.Close(); }
+	}
+	public void UpdateGroupGroup(int GroupId,string name, int Kind)
+	{//הפעולה מוחקת קבוצות
+
+		try
+		{//מעדען את הסטטוס של האדם עם הוא מנמצא בקבוצה או לא
+			Connction.Open();
+			command = new OleDbCommand("UpdateGroup", Connction);
+			command.CommandType = CommandType.StoredProcedure;
+			OleDbParameter parm;
+			parm = command.Parameters.Add("@GroupName", OleDbType.BSTR);
+			parm.Value = name;
+			parm = command.Parameters.Add("@KindGroup", OleDbType.Integer);
+			parm.Value = Kind;
+			parm = command.Parameters.Add("@GroupId", OleDbType.Integer);
+			parm.Value = GroupId;
+			command.ExecuteNonQuery();
+		}
+		catch (Exception err)
+		{
+			throw err;
+		}
+		finally { Connction.Close(); }
+	}
 }

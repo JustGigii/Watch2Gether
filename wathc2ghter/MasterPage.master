@@ -24,10 +24,10 @@
                  </asp:ContentPlaceHolder>  
                 </td>
                  <td  BorderStyle="Solid" Width="10%">
-                     <asp:ListBox ID="ListBoxInvateGroup" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ListBoxInvateGroup_SelectedIndexChanged">
+                     <asp:ListBox ID="ListBoxInvateGroup" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ListBoxInvateGroup_SelectedIndexChanged" Width="94px">
                          <asp:ListItem>Not invite yet</asp:ListItem>
                      </asp:ListBox>
-                     <asp:ListBox ID="ListBoxInvate" runat="server" OnSelectedIndexChanged="ListBoxInvate_SelectedIndexChanged" AutoPostBack="True">
+                     <asp:ListBox ID="ListBoxInvate" runat="server" OnSelectedIndexChanged="ListBoxInvate_SelectedIndexChanged" AutoPostBack="True" >
                          <asp:ListItem>Not invite yet</asp:ListItem>
                      </asp:ListBox>
                  <asp:Menu ID="Menu1" runat="server" BackColor="#B5C7DE" DynamicHorizontalOffset="2" Font-Names="Verdana" Font-Size="0.8em" ForeColor="#284E98" StaticSubMenuIndent="10px">

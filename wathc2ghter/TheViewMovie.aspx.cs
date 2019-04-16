@@ -16,8 +16,8 @@ public partial class TheViewMovie : System.Web.UI.Page
 	public Group Gr;
 	protected void Page_Load(object sender, EventArgs e)
 	{
-		
-		if (Request.QueryString["m"] == null)
+
+		if (Request.QueryString["m"] == null || Session["User"] == null)
 			Response.Redirect("HomePage.aspx");
 		else
 		{
@@ -25,9 +25,9 @@ public partial class TheViewMovie : System.Web.UI.Page
 			if (((GroupsDetails) Page.Application["Rooms"]).Rooms.Count != 0)
 			{
 			Gr = ((GroupsDetails)Page.Application["Rooms"]).GetTheSerchGroup(GroupId);
-                //this.LabelCurrent.Text = Gr.CurrentTime.ToString();
-                this.LabelCurrent.Text = "0";
-                //startTimer(Gr.MenngerGroup, ((UserDetail)Session["User"]).UserId);
+                this.LabelCurrent.Text = Gr.CurrentTime.ToString();
+				Gr.EndMovie = int.Parse(this.LabelEend.Text);
+				//startTimer(Gr.MenngerGroup, ((UserDetail)Session["User"]).UserId);
 			}
 			else
 			{
@@ -35,9 +35,8 @@ public partial class TheViewMovie : System.Web.UI.Page
 			}
 			ImDb.WebService ImDb = new ImDb.WebService();
 			MovieUrl = ImDb.GetURLAddress(int.Parse(Request.QueryString["m"]));
-
-			
-	}
+			PopChat();
+		}
 		
 	}
 	protected void Buttonplay_Click(object sender, EventArgs e)
@@ -49,30 +48,14 @@ public partial class TheViewMovie : System.Web.UI.Page
 	{
 		//   this.Buttonpause.Attributes["onclick"] = "javascript:pauseVideo;";
 	}
-
-	protected static void startTimer(int Mannger, int Claint)
+	public void PopChat()
 	{
-		// initialize the time control giving as parameter the time in milliseconds, between raisings of the Elapsed event. The default is 100 milliseconds.   
-		if (Mannger == Claint)
-		{
-			_timer = new System.Timers.Timer();
-		}
-		else
-		{
-			_timer = new System.Timers.Timer(20000);
-		}
-		// subscribe to the Elapsed event   
-		_timer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);
-
-		// Keep the timer alive until the end of Main.
-		GC.KeepAlive(_timer);
-		_timer.Start();
+		this.TextBoxChat.Text = Gr.Chat;
 	}
-
-	protected static void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+	protected void ButtonSubmit_Click(object sender, EventArgs e)
 	{
-		// Do whatever you want to do on each tick of the timer
-        //if (Gr.MenngerGroup == ((UserDetail)Session["Users"]).UserId)
-		s++;
+		Gr.Chat = ((UserDetail)Session["User"]).UserName + ": " + this.TextBoxMessge.Text;
+		this.TextBoxChat.Text = Gr.Chat;
+		PopChat();
 	}
 }

@@ -12,7 +12,8 @@ public partial class HomePage : System.Web.UI.Page
     DataSet DS;
     protected void Page_Load(object sender, EventArgs e)
     {
-        DS = (DataSet)Page.Application["Catlog"];
+
+		DS = (DataSet)Page.Application["Catlog"];
         if (!Page.IsPostBack)
         {
            

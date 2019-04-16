@@ -15,6 +15,7 @@ using System.Text;
 /// </summary>
 public class TimerW2G
 {
+	
     public static int s = 0;
     public static System.Timers.Timer _timer;
 	public TimerW2G()
@@ -27,7 +28,7 @@ public class TimerW2G
     public static void startTimer()
     {   
         // initialize the time control giving as parameter the time in milliseconds, between raisings of the Elapsed event. The default is 100 milliseconds.   
-        _timer = new System.Timers.Timer();
+        _timer = new System.Timers.Timer(5000);
 
         // subscribe to the Elapsed event   
         _timer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);
@@ -39,9 +40,22 @@ public class TimerW2G
 
     private static void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
     {
-        // Do whatever you want to do on each tick of the timer
-		
-        s++;
+		// Do whatever you want to do on each tick of the timer
+		if (System.Web.HttpContext.Current.Application != null)
+		{
+
+			for (int i = 0; i < ((GroupsDetails)System.Web.HttpContext.Current.Application["Rooms"]).Rooms.Count; i++)
+			{
+				Group Mark = ((GroupsDetails)System.Web.HttpContext.Current.Application["Rooms"]).Rooms[i];
+
+				Mark.CurrentTime += int.Parse(e.SignalTime.ToString());
+				if (Mark.CurrentTime == Mark.EndMovie)
+				{
+					((GroupsDetails)System.Web.HttpContext.Current.Application["Rooms"]).Rooms.Remove(Mark);
+				}
+				System.Web.HttpContext.Current.Response.Redirect("TheViewMovie.aspx ? m =" + Mark.MovieID);
+			}
+		}
     }
 
 }
