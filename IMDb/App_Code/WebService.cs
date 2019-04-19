@@ -56,4 +56,10 @@ public class WebService : System.Web.Services.WebService {
         Movie_s_Servies MS = new Movie_s_Servies();
         return MS.GetMoiveLenght();
     }
+	[WebMethod]
+	public DataSet GetCategory()
+	{//מחזיר את הקטגריות שיש באתר
+		Movie_s_Servies MS = new Movie_s_Servies();
+		return MS.GetCategory();
+	}
 }

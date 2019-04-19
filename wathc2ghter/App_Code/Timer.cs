@@ -41,7 +41,7 @@ public class TimerW2G
     private static void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
     {
 		// Do whatever you want to do on each tick of the timer
-		if (System.Web.HttpContext.Current.Application != null)
+		if (System.Web.HttpContext.Current != null)
 		{
 
 			for (int i = 0; i < ((GroupsDetails)System.Web.HttpContext.Current.Application["Rooms"]).Rooms.Count; i++)

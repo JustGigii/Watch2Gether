@@ -170,4 +170,21 @@ public class Movie_s_Servies
         finally { Connection.Close(); }
 
     }
+
+	public DataSet GetCategory()
+	{//מחזיר את כל הקטגריות הסרטים של האתר
+		ds = new DataSet();
+		try
+		{
+			Connection.Open();
+			Command = new OleDbCommand("ExpleCategory", Connection);
+			Command.CommandType = CommandType.StoredProcedure;
+			Adapter = new OleDbDataAdapter(Command);
+			Adapter.Fill(ds, "CategoryTbl");
+			return ds;
+
+		}
+		catch (Exception Err) { throw Err; }
+		finally { Connection.Close(); }
+	}
 }
