@@ -8,22 +8,22 @@ using System.Web;
 /// </summary>
 public class GroupsDetails
 {
-    private List<Group> rooms;
-    public List<Group> Rooms
+    private List<Group> rooms;//חדרים באתר	
+    public List<Group> Rooms//פעולה בונה
     {
 
         get { return this.rooms; }
        
     }
-	public GroupsDetails()
+	public GroupsDetails()//פעולה בונה
 	{
         rooms = new List<Group>();
 	}
-    public void AddToGroup(Group group)
+    public void AddToGroup(Group group)//מוסיף קוצה לרשימת חדרים
     {
         rooms.Add(group);
     }
-	public Group GetTheSerchGroup(int id)
+	public Group GetTheSerchGroup(int id)//פהעולה מקבל מסםר קבוצה ומחזירה את הקבוצה ברשימת החדרים
 	{
 		foreach (Group i in rooms)
 		{

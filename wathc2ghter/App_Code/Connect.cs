@@ -9,12 +9,13 @@ using System.Data.OleDb;
 /// </summary>
 public class Connect
 {
+	//קישור לדאטה בייס
     static string connectionString = @"Provider=Microsoft.Jet.oledb.4.0; data source=" + HttpContext.Current.Server.MapPath(@"~\App_Data\Movie2gether.mdb");
 	public Connect()
 	{
 	}
     public static string GetInfo()
-    {
+    { //הפעולה מחזירה את השירשור לכניסה של הדטה בייס
         return connectionString;
     }
 }

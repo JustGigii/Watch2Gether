@@ -35,7 +35,7 @@ public partial class CreateGroupe : System.Web.UI.Page
         PopDropDownListKindGourp();
         PopGrid();
     }
-    public void PopDropDownListKindGourp()
+    public void PopDropDownListKindGourp()//מעלה את  נתונים של קבוצה
     {
         DropDownListKindGourp.DataSource = GroupCommand.GetKindGroup();
         DropDownListKindGourp.DataTextField = "Kind";

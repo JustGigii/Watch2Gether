@@ -10,20 +10,20 @@ using System.Data.OleDb;
 /// </summary>
 public class GroupServies
 {
-    OleDbCommand command;
-    OleDbDataAdapter adapter;
-    OleDbConnection Connction = new OleDbConnection(Connect.GetInfo());
-    DataSet ds;
-    OleDbTransaction tr;
+    OleDbCommand command;//פדוקות המתקשרות לבסיס הנתונים	
+    OleDbDataAdapter adapter;//מעביר בין בסיס הנתונים לדטה סט	
+    OleDbConnection Connction = new OleDbConnection(Connect.GetInfo());//פעולת חיבור לבסיס הנתונים
+    DataSet ds;//דטה סט
+    OleDbTransaction tr;//פעולת קישור בין חיברוים לבסיס הנתונים
     public GroupServies()
     {
         //
         // TODO: Add constructor logic here
         //
-    }
-    public DataTable GetKindGroup()
-    {
-        //פעולה צחזירה טבלה של סוג הסרטים שיש באתר 
+    }//פעולה בונה
+    public DataTable GetKindGroup() //פעולה צחזירה טבלה של סוג הסרטים שיש באתר 
+	{
+       
         DataTable DT = new DataTable("KindGroupe");
         DT.Columns.Add("KindId"); DT.Columns.Add("Kind");
         try
@@ -42,8 +42,8 @@ public class GroupServies
             Connction.Close();
         }
     }
-    public void CreateGroup(Group Group)
-    {//פעולה יוצרת קבוצה חדשה
+    public void CreateGroup(Group Group)//פעולה יוצרת קבוצה חדשה
+	{
         try
         {
             Connction.Open();
@@ -71,8 +71,8 @@ public class GroupServies
         catch (Exception err) { throw err; tr.Rollback(); }
         finally { Connction.Close(); }
     }
-    public void AddMemberToGroup(int User, int GroupId, bool inTransaction)
-    {//הוספה מתשמש לקבוצה
+    public void AddMemberToGroup(int User, int GroupId, bool inTransaction)//הוספה מתשמש לקבוצה בכך שמקבל מספר קבוצה מספר משתמש וכן או לא עם הקשר עם הבסיס הנתונים פתוח
+	{
         try
         {
             command = new OleDbCommand("AddMemberToGroup", Connction);
@@ -89,8 +89,8 @@ public class GroupServies
         finally { if (!inTransaction) Connction.Close(); }
 
     }
-    public int InsertGroup(int MemberGroup)
-    {//מוסיף אדם לקבצה שנפתחה
+    public int InsertGroup(int MemberGroup)//מוסיף אדם לקבצה שנפתחה נקבל מספר משתמש
+	{
       try
         {
         command = new OleDbCommand("InsertLastGroup", Connction);
@@ -103,10 +103,10 @@ public class GroupServies
         }
       catch (Exception err) { throw err; }
     }
-	public DataSet ShowUserGoup(int UserId)
-    {
+	public DataSet ShowUserGoup(int UserId)//מציג את כל הקבצות של האדם מקבל מספר משתמש
+	{
         try
-        {//מציג את כל הקבצות של האדם
+        {
             command = new OleDbCommand("ShowAllUserGroup", Connction);
         command.CommandType = CommandType.StoredProcedure;
         Connction.Open();
@@ -121,8 +121,8 @@ public class GroupServies
         catch (Exception err) { throw err; }
         finally { Connction.Close(); }
     }
-    public Group GetGroupToWatch(int GroupId,int MovieId)
-    {//מקבל מספר קבוצה ומספר סרט מחזיר את כל המידע על הקבוצה
+    public Group GetGroupToWatch(int GroupId,int MovieId)//מקבל מספר קבוצה ומספר סרט מחזיר את כל המידע על הקבוצה
+	{
         Group Gr = new Group();
         Gr.GroupId = GroupId;
         try
@@ -152,10 +152,10 @@ public class GroupServies
         catch (Exception err) { throw err; }
         finally { Connction.Close(); }
     }
-	public List<int> GetPoepleInGroup(int Group)
+	public List<int> GetPoepleInGroup(int Group)//מחזיר את כל האנשים בקבוצה
 	{
 		try
-		{//מחזיר את כל האנשים בקבוצה
+		{
 			command = new OleDbCommand("GetallPopleOnGroup", Connction);
 			command.CommandType = CommandType.StoredProcedure;
 			command.Transaction = tr;
@@ -176,10 +176,10 @@ public class GroupServies
 			throw err;
 		}
 	}
-	public DataSet GetPoepleInGroupDb(int Group)
+	public DataSet GetPoepleInGroupDb(int Group)//מחזיר את כל האנשים בקבוצה בצורת דטה בייס
 	{
 		try
-		{//מחזיר את כל האנשים בקבוצה בצורת דטה בייס
+		{
 			Connction.Open();
 			command = new OleDbCommand("GetallPopleOnGroup", Connction);
 			command.CommandType = CommandType.StoredProcedure;
@@ -198,8 +198,8 @@ public class GroupServies
 		}
 		finally { Connction.Close(); }
 	}
-	private void AddStatusName(DataSet ds)
-	{//מוסיף עומדה של שם הסטטוס
+	private void AddStatusName(DataSet ds)//מוסיף עומדה של שם הסטטוס
+	{
 		ds.Tables[0].Columns.Add("SatusName");
 		for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
 		{
@@ -217,7 +217,7 @@ public class GroupServies
 		}
 			}
 		}
-	public DataSet GetGroupCanMannge(int UserId)
+	public DataSet GetGroupCanMannge(int UserId)//הפעולה מקבל משתמש ומחזירה את כל הקבוצות שמשתמש מנהל שלה
     {
           try
         {
@@ -238,10 +238,10 @@ public class GroupServies
           }
         finally{Connction.Close();}
     }
-	public void UpdateToWating(int GroupId, int UserId,int Status)
+	public void UpdateToWating(int GroupId, int UserId,int Status)//הפעולה מקבלת מספר משתמש מספר קבוצה ומשנה את הסטטוס שלו 
 	{
 		try
-		{//מעדען את הסטטוס של האדם עם הוא מנמצא בקבוצה או לא
+		{
 			Connction.Open();
 			command = new OleDbCommand("MakeOnline", Connction);
 			command.CommandType = CommandType.StoredProcedure;
@@ -261,10 +261,10 @@ public class GroupServies
 		}
 		finally { Connction.Close(); }
 	}
-	public DataSet ShowInvateGroup(int UserId)
+	public DataSet ShowInvateGroup(int UserId)//הפעולה מחזירה את ההזמנות לקבוצת למספר אדם המתקבל
 	{
 		try
-		{//מעדען את הסטטוס של האדם עם הוא מנמצא בקבוצה או לא
+		{
 			Connction.Open();
 			command = new OleDbCommand("InvateGroup", Connction);
 			command.CommandType = CommandType.StoredProcedure;
@@ -282,11 +282,11 @@ public class GroupServies
 		}
 		finally { Connction.Close(); }
 	}
-	public void DelGroup(int GroupId)
-	{//הפעולה מוחקת קבוצות
+	public void DelGroup(int GroupId)//הפעולה מוחקת קבוצות התקבלת ממספר קבוצה
+	{
 
 		try
-		{//מעדען את הסטטוס של האדם עם הוא מנמצא בקבוצה או לא
+		{
 			Connction.Open();
 			command = new OleDbCommand("DelGroup", Connction);
 			command.CommandType = CommandType.StoredProcedure;
@@ -302,10 +302,10 @@ public class GroupServies
 		finally { Connction.Close(); }
 	}
 	public void UpdateGroupGroup(int GroupId,string name, int Kind)
-	{//הפעולה מוחקת קבוצות
+	{
 
 		try
-		{//מעדען את הסטטוס של האדם עם הוא מנמצא בקבוצה או לא
+		{
 			Connction.Open();
 			command = new OleDbCommand("UpdateGroup", Connction);
 			command.CommandType = CommandType.StoredProcedure;
@@ -323,5 +323,5 @@ public class GroupServies
 			throw err;
 		}
 		finally { Connction.Close(); }
-	}
+	}//הפעולה עדכון קבוצה
 }

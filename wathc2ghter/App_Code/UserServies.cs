@@ -10,10 +10,10 @@ using System.Data.OleDb;
 /// </summary>
 public class UserServies
 {
-	protected OleDbCommand Mycommand;
-	protected OleDbDataAdapter adapter;
-	protected OleDbConnection MyConnction;
-	DataSet ds;
+	protected OleDbCommand Mycommand;//פקודות לבסיס הנתונים
+	protected OleDbDataAdapter adapter;//פעולה מחברת בין בסיס הנתונים לדטה סט
+	protected OleDbConnection MyConnction;//מפעולת חיבור בין בסיס הנתונים לתוכנה
+	DataSet ds;//דטה סט
 	public UserServies()
 	{
 		MyConnction = new OleDbConnection(Connect.GetInfo());
@@ -22,10 +22,10 @@ public class UserServies
 		//
 		// TODO: Add constructor logic here
 		//
-	}
-	private DataSet Convert2dataset()
+	}//פעולה בונה
+	private DataSet Convert2dataset()//פעולה יוצרת טבלה חדשה שיש את כל מה שצריך להכיל בUser
 	{
-		//פעולה יוצרת טבלה חדשה שיש את כל מה שצריך להכיל בUser
+		
 		DataTable Dt = new DataTable();
 		Dt.TableName = "Users";
 		Dt.Columns.Add("UserId");
@@ -48,8 +48,8 @@ public class UserServies
 		ds.Tables.Add(Dt);
 		return ds;
 	}
-	public void AddUser(UserDetail user)
-	{//מעדכן פרטים בdatabes 
+	public void AddUser(UserDetail user)//מעדכן פרטים בdatabes 
+	{
 		try
 		{
 			MyConnction.Open();
@@ -91,8 +91,8 @@ public class UserServies
 		catch (Exception err) { throw err; }
 		finally { MyConnction.Close(); }
 	}
-	public int IsUserValid(string name, string pass)
-	{//בודק עם המשתמש נמצעה בדטה בייס עם נמצאה אז שולח  
+	public int IsUserValid(string name, string pass)//בודק עם המשתמש נמצעה בדטה בייס עם נמצאה אז שולח 
+	{ 
 		try
 		{
 			MyConnction.Open();
@@ -119,8 +119,8 @@ public class UserServies
 		}
 		finally { MyConnction.Close(); }
 	}
-	public int IsUserValidName(string name)
-	{//בודק עם המשתמש נמצעה בדטה בייס עם נמצאה אז שולח את מספר של המשתמש
+	public int IsUserValidName(string name)//בודק עם המשתמש נמצעה בדטה בייס עם נמצאה אז שולח את מספר של המשתמש
+	{
 		try
 		{
 			MyConnction.Open();
@@ -145,8 +145,8 @@ public class UserServies
 		}
 		finally { MyConnction.Close(); }
 	}
-	public DataSet FillAllUsers(DataSet Dataset)
-	{//הפעעולה ממעלה את כל בדתה סט בטבלת יוסרס
+	public DataSet FillAllUsers(DataSet Dataset)//הפעעולה ממעלה את כל בדתה סט בטבלת יוסרס
+	{
 		try
 		{
 			MyConnction.Open();
@@ -157,8 +157,8 @@ public class UserServies
 		catch (Exception Err) { throw Err; }
 		finally { MyConnction.Close(); }
 	}
-	public DataSet FillAllUsers()
-	{//הפעעולה ממעלה את כל בדתה סט בטבלת יוסרס
+	public DataSet FillAllUsers()//הפעעולה ממעלה את כל בדתה סט בטבלת יוסרס
+	{
 		try
 		{
 			MyConnction.Open();
@@ -169,8 +169,8 @@ public class UserServies
 		catch (Exception Err) { throw Err; }
 		finally { MyConnction.Close(); }
 	}
-	public void UpdateUserServer(UserDetail User, DataSet DS)
-	{//פעולה מקבלת טבלה ופרטי משתמש
+	public void UpdateUserServer(UserDetail User, DataSet DS)//פעולה מקבלת טבלה ופרטי משתמש
+	{
 		foreach (DataRow Row in DS.Tables["Users"].Rows)
 		{
 			if (User.UserId == int.Parse(Row["UserId"].ToString()))
@@ -200,8 +200,8 @@ public class UserServies
 		{ throw err; }
 		finally { MyConnction.Close(); }
 	}
-	public void UpdateUserServer(DataSet DS)
-	{//פעולה מקבלת טבלה ופרטי משתמש
+	public void UpdateUserServer(DataSet DS)//פעולה מקבלת טבלה ופרטי משתמש
+	{
 		try
 		{
 			MyConnction.Open();
@@ -213,9 +213,9 @@ public class UserServies
 		{ throw err; }
 		finally { MyConnction.Close(); }
 	}
-	public DataSet PopFriends(int UserId)
-	{//פעולה מקבלת userid 
-	 // ומחזירה דטהסט של כל החברים של האדם   
+	public DataSet PopFriends(int UserId)//פעולה מקבלת userid 
+										 // ומחזירה דטהסט של כל החברים של האדם
+	{
 		try
 		{
 			MyConnction.Open();
@@ -233,8 +233,8 @@ public class UserServies
 		catch (Exception REE) { throw REE; }
 		finally { MyConnction.Close(); }
 	}
-	public DataSet ViewHistoryWach(int UserID)
-	{//פעולה מקבלת מספר משתמש ומחזירה שני טבלאות  שבהם יש את כל פרטי המשתמש
+	public DataSet ViewHistoryWach(int UserID)//פעולה מקבלת מספר משתמש ומחזירה שני טבלאות  שבהם יש את כל פרטי המשתמש
+	{
 		try
 		{
 
@@ -260,9 +260,9 @@ public class UserServies
 		catch (Exception Err) { throw Err; }
 		finally { MyConnction.Close(); }
 	}
-	private void AddMoviesNames(DataSet ds)
+	private void AddMoviesNames(DataSet ds)//הוספת שמות הסרטים מ IMDB לטבלת הסטוריית סרטים למשתמש
 	{
-		//הוספת שמות הסרטים מ IMDB לטבלת הסטוריית סרטים למשתמש
+		
 		ds.Tables["UserHistory"].Columns.Add(new DataColumn(("MovieName"), typeof(string)));
 		ds.Tables["GroupHistory"].Columns.Add(new DataColumn(("MovieName"), typeof(string)));
 		ImDb.WebService Db = new ImDb.WebService();
@@ -282,8 +282,8 @@ public class UserServies
 			ds.Tables["GroupHistory"].Rows[i]["MovieName"] = dr["MovieName"];
 		}
 	}
-	private DataTable CreateTable(string[] col, string Name)
-	{//הפעולה מקבלת שמות של סדאות ומכינה טבלאה הנתאימה
+	private DataTable CreateTable(string[] col, string Name)//הפעולה מקבלת שמות של סדאות ומכינה טבלאה הנתאימה
+	{
 		DataTable send = new DataTable();
 		DataColumn cols = new DataColumn(col[0], typeof(string));
 		cols.Unique = true;
@@ -298,8 +298,8 @@ public class UserServies
 		send.TableName = Name;
 		return send;
 	}
-	public void AddToHistory(int Movie, int User)
-	{//מוסיף להיסטוריה של משתמש
+	public void AddToHistory(int Movie, int User)//מוסיף להיסטוריה של משתמש
+	{
 		try
 		{
 			MyConnction.Open();
@@ -317,8 +317,8 @@ public class UserServies
 		catch (Exception err) { throw err; }
 		finally { MyConnction.Close(); }
 	}
-	public void DeleteUser(int UserId, int FrendsId)
-	{//פעולה מוחק חבר מי מאגר החברים
+	public void DeleteUser(int UserId, int FrendsId)//פעולה מוחק חבר מי מאגר החברים
+	{
 		try
 		{
 			MyConnction.Open();
@@ -334,8 +334,8 @@ public class UserServies
 		catch (Exception err) { throw err; }
 		finally { MyConnction.Close(); }
 	}
-	public void AddFriends(int UserId, int FrendsId)
-	{//פעולה מוחק חבר מי מאגר החברים
+	public void AddFriends(int UserId, int FrendsId)//פעולה מוחק חבר מי מאגר החברים
+	{
 		try
 		{
 			MyConnction.Open();
