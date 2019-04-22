@@ -42,7 +42,7 @@ public class TimerW2G
     {
 		// Do whatever you want to do on each tick of the timer
 		if (System.Web.HttpContext.Current != null)
-		{
+
 
 			for (int i = 0; i < ((GroupsDetails)System.Web.HttpContext.Current.Application["Rooms"]).Rooms.Count; i++)
 			{
