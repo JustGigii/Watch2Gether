@@ -28,7 +28,7 @@ public class TimerW2G
     public static void startTimer()
     {   
         // initialize the time control giving as parameter the time in milliseconds, between raisings of the Elapsed event. The default is 100 milliseconds.   
-        _timer = new System.Timers.Timer(5000);
+        _timer = new System.Timers.Timer(1000);
 
         // subscribe to the Elapsed event   
         _timer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);
@@ -41,21 +41,26 @@ public class TimerW2G
     private static void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
     {
 		// Do whatever you want to do on each tick of the timer
-		if (System.Web.HttpContext.Current != null)
+		//if (System.Web.HttpContext.Current != null)
 
+        //  HttpRuntime.Cache.
+			//for (int i = 0; i < ((GroupsDetails)System.Web.HttpContext.Current.Application["Rooms"]).Rooms.Count; i++)
+        GroupsDetails groupsDetails = (GroupsDetails)HttpRuntime.Cache.Get("Rooms");
 
-			for (int i = 0; i < ((GroupsDetails)System.Web.HttpContext.Current.Application["Rooms"]).Rooms.Count; i++)
+        for (int i = 0; i < groupsDetails.Rooms.Count; i++)
 			{
-				Group Mark = ((GroupsDetails)System.Web.HttpContext.Current.Application["Rooms"]).Rooms[i];
+			//	Group Mark = ((GroupsDetails)System.Web.HttpContext.Current.Application["Rooms"]).Rooms[i];
+                Group Mark = groupsDetails.Rooms[i];
+				Mark.CurrentTime += int.Parse(e.SignalTime.Second.ToString());
+				
+					//((GroupsDetails)System.Web.HttpContext.Current.Application["Rooms"]).Rooms.Remove(Mark);
+                  
+        //        System.Web.HttpContext.Current.Response.Redirect("TheViewMovie.aspx ? m =" + Mark.MovieID);
+        }
 
-				Mark.CurrentTime += int.Parse(e.SignalTime.ToString());
-				if (Mark.CurrentTime == Mark.EndMovie)
-				{
-					((GroupsDetails)System.Web.HttpContext.Current.Application["Rooms"]).Rooms.Remove(Mark);
-				}
-				System.Web.HttpContext.Current.Response.Redirect("TheViewMovie.aspx ? m =" + Mark.MovieID);
-			}
+				
+			
 		}
-    }
+   // }
 
 }

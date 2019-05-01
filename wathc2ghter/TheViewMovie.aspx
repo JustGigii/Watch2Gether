@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="TheViewMovie.aspx.cs" Inherits="TheViewMovie" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+ <meta http-equiv="refresh" content="10">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <%--<Button ID="Buttonplay"   Text="play" onclick="playVideo()" />--%>
@@ -18,17 +19,13 @@
    
     <script>
         var video = document.getElementById('myVideo');
-        var Ends = document.getElementById('ContentPlaceHolder1_LabelEend');
-        Ends.value = video.duration;
+        var timeS = document.getElementById('ContentPlaceHolder1_LabelCurrent');
         playVideo();
 
         function playVideo()
         {
-            alert("play");
-          
             var timeS = document.getElementById('ContentPlaceHolder1_LabelCurrent');
             video.currentTime = timeS.value;
-            alert(video.currentTime);
             video.play();
         }
 

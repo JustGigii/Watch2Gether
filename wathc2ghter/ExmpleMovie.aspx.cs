@@ -76,7 +76,10 @@ public partial class HomePage_ExmpleMovie : System.Web.UI.Page
            Group Group = new Group();
 			GroupServies Groupcommand = new GroupServies();
 			 Group = Groupcommand.GetGroupToWatch(int.Parse(ListBoxGroup.SelectedValue), int.Parse(MovieId));
-			((GroupsDetails)Application["Rooms"]).AddToGroup(Group);
+			//((GroupsDetails)Application["Rooms"]).AddToGroup(Group);
+           GroupsDetails g=(GroupsDetails) Cache.Get("Rooms");
+           g.AddToGroup(Group);
+          Cache.Insert("Rooms", g);
 			Group.MenngerGroup = ((UserDetail)Session["User"]).UserId;
 				Response.Redirect("TheViewMovie.aspx?m=" + Group.GroupId);
 

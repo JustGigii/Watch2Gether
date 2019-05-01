@@ -28,8 +28,9 @@ public partial class MasterPage : System.Web.UI.MasterPage
                     Menu1.Items.Add(new MenuItem("GroupMannge", "GroupMannge", null, "~/GroupMannge.aspx"));
                 if (((UserDetail)Session["User"]).KindUser == 10)
                     Menu1.Items.Add(new MenuItem("MenngerPage", "MenngerPage", null, "~/MenngerPage.aspx"));
-                GroupsDetails groups=((GroupsDetails)Page.Application["Rooms"]);
-                if (groups.Rooms.Count != 0)
+             //   GroupsDetails groups=((GroupsDetails)Page.Application["Rooms"]);
+                GroupsDetails groups = (GroupsDetails)Cache.Get("Rooms");
+               if (groups.Rooms.Count != 0)
                 {
 					this.ListBoxInvate.Items.Clear();
                     foreach (Group i in groups.Rooms)

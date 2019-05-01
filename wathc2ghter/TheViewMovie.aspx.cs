@@ -16,26 +16,31 @@ public partial class TheViewMovie : System.Web.UI.Page
 	public Group Gr;
 	protected void Page_Load(object sender, EventArgs e)
 	{
-
-		if (Request.QueryString["m"] == null || Session["User"] == null)
-			Response.Redirect("HomePage.aspx");
-		else
-		{
-			GroupId = int.Parse(Request.QueryString["m"]);
-			if (((GroupsDetails) Page.Application["Rooms"]).Rooms.Count != 0)
-			{
-			Gr = ((GroupsDetails)Page.Application["Rooms"]).GetTheSerchGroup(GroupId);
-                this.LabelCurrent.Text = Gr.CurrentTime.ToString();
-				Gr.EndMovie = int.Parse(this.LabelEend.Text);
-				//startTimer(Gr.MenngerGroup, ((UserDetail)Session["User"]).UserId);
-			}
-			else
-			{
-				this.LabelCurrent.Text = "0";
-			}
-			ImDb.WebService ImDb = new ImDb.WebService();
-			MovieUrl = ImDb.GetURLAddress(int.Parse(Request.QueryString["m"]));
-			PopChat();
+        if (!Page.IsPostBack)
+        {
+            if (Request.QueryString["m"] == null || Session["User"] == null)
+                Response.Redirect("HomePage.aspx");
+            else
+            {
+                GroupId = int.Parse(Request.QueryString["m"]);
+                //if (((GroupsDetails) Page.Application["Rooms"]).Rooms.Count != 0)
+                GroupsDetails groupsDetails = (GroupsDetails)Cache.Get("Rooms");
+                if (groupsDetails.Rooms.Count != 0)
+                {
+                    //Gr = ((GroupsDetails)Page.Application["Rooms"]).GetTheSerchGroup(GroupId);
+                    Gr = groupsDetails.GetTheSerchGroup(GroupId);
+                    this.LabelCurrent.Text = Gr.CurrentTime.ToString();
+                    Gr.EndMovie = int.Parse(this.LabelEend.Text);
+                    //startTimer(Gr.MenngerGroup, ((UserDetail)Session["User"]).UserId);
+                }
+                else
+                {
+                    this.LabelCurrent.Text = "0";
+                }
+                ImDb.WebService ImDb = new ImDb.WebService();
+                MovieUrl = ImDb.GetURLAddress(int.Parse(Request.QueryString["m"]));
+            }
+            PopChat();
 		}
 		
 	}
@@ -50,7 +55,7 @@ public partial class TheViewMovie : System.Web.UI.Page
 	}
 	public void PopChat()
 	{
-		this.TextBoxChat.Text = Gr.Chat;
+		//this.TextBoxChat.Text = Gr.Chat;
 	}
 	protected void ButtonSubmit_Click(object sender, EventArgs e)
 	{
@@ -58,4 +63,5 @@ public partial class TheViewMovie : System.Web.UI.Page
 		this.TextBoxChat.Text = Gr.Chat;
 		PopChat();
 	}
+    
 }

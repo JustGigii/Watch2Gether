@@ -13,7 +13,9 @@
         ImDb.WebService ImDb = new ImDb.WebService();
         DS = ImDb.GetTheCatlog();
         Application["Catlog"] = DS;
-        Application["Rooms"] = new GroupsDetails();
+        
+     //   Application["Rooms"] = new GroupsDetails();
+        HttpRuntime.Cache.Insert("Rooms", new GroupsDetails());
         TimerW2G.startTimer();
 
     }
