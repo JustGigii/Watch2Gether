@@ -16,12 +16,11 @@ public partial class TheViewMovie : System.Web.UI.Page
 	public Group Gr;
 	protected void Page_Load(object sender, EventArgs e)
 	{
-        if (!Page.IsPostBack)
-        {
             if (Request.QueryString["m"] == null || Session["User"] == null)
                 Response.Redirect("HomePage.aspx");
             else
             {
+               
                 GroupId = int.Parse(Request.QueryString["m"]);
                 //if (((GroupsDetails) Page.Application["Rooms"]).Rooms.Count != 0)
                 GroupsDetails groupsDetails = (GroupsDetails)Cache.Get("Rooms");
@@ -41,7 +40,6 @@ public partial class TheViewMovie : System.Web.UI.Page
                 MovieUrl = ImDb.GetURLAddress(int.Parse(Request.QueryString["m"]));
             }
             PopChat();
-		}
 		
 	}
 	protected void Buttonplay_Click(object sender, EventArgs e)
@@ -55,13 +53,14 @@ public partial class TheViewMovie : System.Web.UI.Page
 	}
 	public void PopChat()
 	{
-		//this.TextBoxChat.Text = Gr.Chat;
+        this.TextBoxChat.Text = Gr.Chat;
 	}
-	protected void ButtonSubmit_Click(object sender, EventArgs e)
-	{
-		Gr.Chat = ((UserDetail)Session["User"]).UserName + ": " + this.TextBoxMessge.Text;
-		this.TextBoxChat.Text = Gr.Chat;
-		PopChat();
-	}
-    
+
+    protected void ButtonSubmit_Click1(object sender, EventArgs e)
+    {
+
+        Gr.Chat = ((UserDetail)Session["User"]).UserName + ": " + this.TextBoxMessge.Text+ "\n";
+        this.TextBoxChat.Text = Gr.Chat;
+        PopChat();
+    }
 }

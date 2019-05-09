@@ -94,7 +94,7 @@ public partial class MenngerPage1 : System.Web.UI.Page
 			Member.CardID = ((TextBox)(GridViewUsers.Rows[e.RowIndex].Cells[11].Controls[0])).Text;
             Member.dateCard = ((TextBox)(GridViewUsers.Rows[e.RowIndex].Cells[12].Controls[0])).Text;
             Member.SecurityCode = ((TextBox)(GridViewUsers.Rows[e.RowIndex].Cells[13].Controls[0])).Text;
-            Commands.UpdateUserServer(DS);
+            Commands.UpdateUserServer(Member);
             this.GridViewUsers.EditIndex = -1;
             popGird();
         }

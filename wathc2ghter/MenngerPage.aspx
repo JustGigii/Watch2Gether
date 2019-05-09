@@ -49,9 +49,9 @@
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="Status">
                     <EditItemTemplate>
-                        <asp:RadioButtonList ID="RadioButtonListStatus" runat="server">
-                            <asp:ListItem Value="true">True</asp:ListItem>
-                            <asp:ListItem Value="false">False</asp:ListItem>
+                        <asp:RadioButtonList ID="RadioButtonListStatus" runat="server" SelectedValue='<%# Bind("Status") %>'>
+                            <asp:ListItem Value="True">True</asp:ListItem>
+                            <asp:ListItem Value="False">False</asp:ListItem>
                         </asp:RadioButtonList>
                     </EditItemTemplate>
                     <ItemTemplate>

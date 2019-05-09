@@ -246,12 +246,13 @@ public class GroupServies
 			command = new OleDbCommand("MakeOnline", Connction);
 			command.CommandType = CommandType.StoredProcedure;
 			OleDbParameter parm;
+            parm = command.Parameters.Add("@Status", OleDbType.Integer);
+            parm.Value = Status;
 			parm = command.Parameters.Add("@GroupId", OleDbType.Integer);
 			parm.Value = GroupId;
 			parm = command.Parameters.Add("@UserId", OleDbType.Integer);
 			parm.Value = UserId;
-			parm = command.Parameters.Add("@Status", OleDbType.Integer);
-			parm.Value = Status;
+			
 			command.ExecuteNonQuery();
 
 		}

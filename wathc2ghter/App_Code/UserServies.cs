@@ -200,18 +200,50 @@ public class UserServies
 		{ throw err; }
 		finally { MyConnction.Close(); }
 	}
-	public void UpdateUserServer(DataSet DS)//פעולה מקבלת טבלה ופרטי משתמש
+	public void UpdateUserServer(UserDetail user)//פעולה מקבלת טבלה ופרטי משתמש
 	{
-		try
-		{
-			MyConnction.Open();
-			OleDbCommandBuilder builder = new OleDbCommandBuilder(adapter);
-			adapter.UpdateCommand = builder.GetUpdateCommand();
-			adapter.Update(DS, "Users");
-		}
-		catch (Exception err)
-		{ throw err; }
-		finally { MyConnction.Close(); }
+        try
+        {
+            MyConnction.Open();
+            Mycommand = new OleDbCommand("UpdateUser", MyConnction);
+            Mycommand.CommandType = CommandType.StoredProcedure;
+            OleDbParameter parm;
+            parm = Mycommand.Parameters.Add("@UserName", OleDbType.BSTR);
+            parm.Value = user.UserName;
+            //parm = Mycommand.Parameters.Add("@State", OleDbType.BSTR);
+            //parm.Value = user.State;
+            //parm = Mycommand.Parameters.Add("@FirstName", OleDbType.BSTR);
+            //parm.Value = user.FirstName;
+            //parm = Mycommand.Parameters.Add("@Email", OleDbType.BSTR);
+            //parm.Value = user.Email;
+            //parm = Mycommand.Parameters.Add("@Password", OleDbType.BSTR);
+            //parm.Value = user.Password;
+            //parm = Mycommand.Parameters.Add("@KindUser", OleDbType.Integer);
+            //parm.Value = user.KindUser;
+            //parm = Mycommand.Parameters.Add("@Image", OleDbType.BSTR);
+            //parm.Value = user.Imagel;
+            //parm = Mycommand.Parameters.Add("@Description", OleDbType.BSTR);
+            //parm.Value = user.Description;
+            //parm = Mycommand.Parameters.Add("@Status", OleDbType.Boolean);
+            //parm.Value = user.Status;
+            //parm = Mycommand.Parameters.Add("@LastName", OleDbType.BSTR);
+            //parm.Value = user.LastName;
+            //parm = Mycommand.Parameters.Add("@CardID", OleDbType.BSTR);
+            //parm.Value = user.CardID;
+            //parm = Mycommand.Parameters.Add("@dateCard", OleDbType.BSTR);
+            //parm.Value = user.dateCard;
+            //parm = Mycommand.Parameters.Add("@SecurityCode", OleDbType.BSTR);
+            //parm.Value = user.SecurityCode;
+            //parm = Mycommand.Parameters.Add("@DateAdd", OleDbType.Date);
+            //parm.Value = user.DateAdd;
+            //parm = Mycommand.Parameters.Add("@birthday", OleDbType.Date);
+            //parm.Value = user.birthday;
+            parm = Mycommand.Parameters.Add("@UserId", OleDbType.Integer);
+            parm.Value = user.UserId;
+            Mycommand.ExecuteNonQuery();
+        }
+        catch (Exception err) { throw err; }
+        finally { MyConnction.Close(); }
 	}
 	public DataSet PopFriends(int UserId)//פעולה מקבלת userid 
 										 // ומחזירה דטהסט של כל החברים של האדם

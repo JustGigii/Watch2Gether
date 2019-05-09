@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="TheViewMovie.aspx.cs" Inherits="TheViewMovie" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
- <meta http-equiv="refresh" content="10">
+ <meta http-equiv="refresh" content="60">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <%--<Button ID="Buttonplay"   Text="play" onclick="playVideo()" />--%>
@@ -46,8 +46,9 @@
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
       <ContentTemplate>
           <asp:TextBox ID="TextBoxChat" runat="server" TextMode="MultiLine" Height="185px" ReadOnly="True"></asp:TextBox>
-          <br> </br>
-          <asp:TextBox ID="TextBoxMessge" runat="server"></asp:TextBox><asp:Button ID="ButtonSubmit" runat="server" Text="Send" />
+          <br></br>
+          <asp:TextBox ID="TextBoxMessge" runat="server"></asp:TextBox>
+          <asp:Button ID="ButtonSubmit" runat="server" OnClick="ButtonSubmit_Click1" Text="Send" />
       </ContentTemplate>
     </asp:UpdatePanel>
     </asp:Content>

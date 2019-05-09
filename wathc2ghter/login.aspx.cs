@@ -44,7 +44,7 @@ public partial class login1 : System.Web.UI.Page
                 List<UserDetail> Online = (List<UserDetail>)Page.Application["Users"];
                 Online.Add(User);
                 Page.Application["Users"] = Online;
-                Response.Redirect("UpdateUser.aspx");
+                Response.Redirect("HomePage.aspx");
 
             }
             else
