@@ -75,8 +75,8 @@ public partial class UpdateUser1 : System.Web.UI.Page
                 User.FirstName = this.TextBoxFname.Text;
                 User.Email = this.TextBoxmail.Text;
                 User.Password = this.TextBoxPass.Text;
-                User.LastName = this.TextBoxLname.Text;
-                UserCommand.UpdateUserServer(User, (DataSet)Page.Application["DataSetUsers"]);
+				User.LastName = this.TextBoxLname.Text;
+                UserCommand.UpdateUserServer(User);
                 TableDEtails.Visible = false;
                 TableDEtails.Enabled = false;
                 TextBoxPass.Visible = true;

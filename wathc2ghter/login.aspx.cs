@@ -15,7 +15,7 @@ public partial class login1 : System.Web.UI.Page
     {
         UserServies = new UserServies();
         User = new UserDetail();
-        DS = (DataSet)Page.Application["DataSetUsers"];
+        DS = UserServies.FillAllUsers();
     }
 
     protected void ButtonSubmit_Click(object sender, EventArgs e)

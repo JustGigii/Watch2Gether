@@ -6,14 +6,10 @@
     {
         // Code that runs on application startup
         System.Data.DataSet DS = new System.Data.DataSet();
-        UserServies User = new UserServies();
-        DS = User.FillAllUsers(DS);
-        Application["DataSetUsers"] = DS;
         Application["Users"] = new List<UserDetail>();
         ImDb.WebService ImDb = new ImDb.WebService();
         DS = ImDb.GetTheCatlog();
         Application["Catlog"] = DS;
-        
      //   Application["Rooms"] = new GroupsDetails();
         HttpRuntime.Cache.Insert("Rooms", new GroupsDetails());
         TimerW2G.startTimer();

@@ -16,18 +16,15 @@ public partial class MenngerPage1 : System.Web.UI.Page
     {
         Member = new UserDetail();
         Commands = new UserServies();
-        if (!Page.IsPostBack)
-        {
-			DS = (DataSet)Page.Application["DataSetUsers"];
-			popGird();
             DS = new DataSet();
-        }
-        DS = (DataSet)Page.Application["DataSetUsers"];
+		DS = Commands.FillAllUsers();
+		popGird();
 
-    }
+
+	}
     public void popGird()
     {//הפעולה מציגה את הטבלה
-        this.GridViewUsers.DataSource = (DataSet)Page.Application["DataSetUsers"];
+        this.GridViewUsers.DataSource = DS; 
         this.GridViewUsers.DataBind();
     }
     protected void GridViewUsers_RowCommand(object sender, GridViewCommandEventArgs e)
