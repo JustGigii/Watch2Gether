@@ -18,25 +18,24 @@ public partial class UpdateUser1 : System.Web.UI.Page
             User = new UserDetail();
             TableDEtails.Visible = false;
             TableDEtails.Enabled = false;
-            TableUpgrade.Visible = false;
-            TableUpgrade.Enabled = false;
+			TableUpgrade.Visible = false;
+			TableUpgrade.Enabled = false;
             if (Session["User"] == null)
                 Response.Redirect("login.aspx");
             else
             {
                 User = (UserDetail)Session["User"];
                 UserCommand = new UserServies();
-                if (User.KindUser <= 1)
-                {
-                    TableUpgrade.Visible = true;
-                    TableUpgrade.Enabled = true;
-                    Buttonupgrade.Enabled = true;
-                    poplateDDLYear();
-                    populateDDLMonth();
+				if (User.KindUser <= 1)
+				{
+					
+					Buttonupgrade.Enabled = true;
+					poplateDDLYear();
+					populateDDLMonth();
 
 
-                }
-            }
+				}
+			}
 
         }
         User = (UserDetail)Session["User"];
@@ -151,7 +150,9 @@ public partial class UpdateUser1 : System.Web.UI.Page
             {
                 TableUpgrade.Visible = true;
                 TableUpgrade.Enabled = true;
-                this.Buttonupgrade.Text = "Submit";
+				poplateDDLYear();
+				populateDDLMonth();
+				this.Buttonupgrade.Text = "Submit";
             }
             catch (Exception Err)
             {
@@ -162,7 +163,8 @@ public partial class UpdateUser1 : System.Web.UI.Page
         {
             try
             {
-                //בודק
+				//בודק
+				
                 WebCreditService.CardDetails card = new WebCreditService.CardDetails();
                 card.CardID =this.TextBoxCardId.Text;
                 card.ExpirationDate = this.DropDownListMonth.SelectedValue + "/" + this.DropDownListYears.SelectedValue;
@@ -177,12 +179,12 @@ public partial class UpdateUser1 : System.Web.UI.Page
                     Trc.CreditNumber = card.CardID;
                     Trc.TransactioType = "חובה";
                     web.insertTransaction(Trc);
-                    User.CardID = this.TextBoxCardId.Text;
-                    User.dateCard = this.DropDownListMonth.SelectedValue + "/" + this.DropDownListYears.SelectedValue;
-                    User.SecurityCode = this.TextBoxCVS.Text;
+                    //User.CardID = this.TextBoxCardId.Text;
+                    //User.dateCard = this.DropDownListMonth.SelectedValue + "/" + this.DropDownListYears.SelectedValue;
+                    //User.SecurityCode = this.TextBoxCVS.Text;
                     User.KindUser = 5;
 					Session["User"] = User;
-					UserCommand.UpdateUserServer(User, (DataSet)Page.Application["DataSetUsers"]);
+					UserCommand.UpdateUserServer(User);
                     TableUpgrade.Visible = false;
                     TableUpgrade.Enabled = false;
                     this.Buttonupgrade.Text = "upgrade Your accound";

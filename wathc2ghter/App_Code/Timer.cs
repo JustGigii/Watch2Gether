@@ -51,6 +51,7 @@ public class TimerW2G
 			{
 			//	Group Mark = ((GroupsDetails)System.Web.HttpContext.Current.Application["Rooms"]).Rooms[i];
                 Group Mark = groupsDetails.Rooms[i];
+				if(Mark.Active)
 				Mark.CurrentTime += 1;
 				
 					//((GroupsDetails)System.Web.HttpContext.Current.Application["Rooms"]).Rooms.Remove(Mark);

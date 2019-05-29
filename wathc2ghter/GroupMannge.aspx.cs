@@ -16,6 +16,8 @@ public partial class GroupMannge : System.Web.UI.Page
             {
                 if (Session["User"] == null)
                     Response.Redirect("HomePage.aspx");
+			this.LabelFrendlist.Visible = false;
+			this.LabelPeople.Visible = false;
 			this.TablePageInterFace.Visible = false;
 			popListGroup();
 			Session["Group"] = new Group();
@@ -29,20 +31,44 @@ public partial class GroupMannge : System.Web.UI.Page
             GroupServies Gr = new GroupServies();
             Ds = new DataSet();
             Ds = Gr.GetGroupCanMannge(((UserDetail)Session["User"]).UserId);
-              this.RadioButtonListGroup.DataSource = Ds.Tables[0];
-		RadioButtonListGroup.DataTextField = Ds.Tables[0].Columns["GroupName"].ToString();
-		RadioButtonListGroup.DataValueField = Ds.Tables[0].Columns["GroupId"].ToString();
-		RadioButtonListGroup.DataBind();
+		if (Ds.Tables[0].Rows.Count < 1)
+		{
+			LabelFrendlist.Visible = true;
+			LabelFrendlist.Text = "You Not Mannge any group";
+		}
+		else
+		{
+			
+			this.RadioButtonListGroup.DataSource = Ds.Tables[0];
+			RadioButtonListGroup.DataTextField = Ds.Tables[0].Columns["GroupName"].ToString();
+			RadioButtonListGroup.DataValueField = Ds.Tables[0].Columns["GroupId"].ToString();
+			RadioButtonListGroup.DataBind();
+		}
     }
-	public void PopGrid()
+	public void PopGrid(int id)
 	{
+        GroupServies Gr = new GroupServies();
+        Ds= Gr.GetPoepleInGroupDb(id);
 		int num = ((UserDetail) Session["User"]).UserId;
 		UserServies UserCommand = new UserServies();
-		this.GridViewFrends.DataSource = UserCommand.PopFriends(num);
+        DataSet DsFirends = new DataSet();
+        DsFirends = UserCommand.PopFriends(num);
+        for (int d = 0; d < Ds.Tables[0].Rows.Count; d++)
+        {
+            for (int i = 0; i < DsFirends.Tables[0].Rows.Count; i++)
+            {
+                
+                    if (Ds.Tables[0].Rows[d]["UserId"].ToString() == DsFirends.Tables[0].Rows[i]["FriendId"].ToString())
+                        DsFirends.Tables[0].Rows.RemoveAt(i);
+            }
+        }
+        this.GridViewFrends.DataSource = DsFirends;
 		GridViewFrends.DataBind();
 	}
 	protected void RadioButtonListGroup_SelectedIndexChanged(object sender, EventArgs e)
 	{//מציג את נתוני הקבוצה
+		LabelFrendlist.Visible = true;
+		LabelPeople.Visible = true;
 		this.TablePageInterFace.Visible = true;
 		Session["Group"] = GP.GetGroupToWatch(int.Parse(this.RadioButtonListGroup.SelectedValue), 0);
 		this.TextBoxGroupName.Text = ((Group)Session["Group"]).GroupeName;
@@ -51,7 +77,7 @@ public partial class GroupMannge : System.Web.UI.Page
 		DropDownListKindGourp.DataValueField = "KindId";
 		DropDownListKindGourp.DataBind();
 		DropDownListKindGourp.Items.FindByValue(((Group)Session["Group"]).KindGroup.ToString()).Selected = true;
-		PopGrid();
+        PopGrid(((Group)Session["Group"]).GroupId);
 		PopGroupMember(((Group)Session["Group"]).GroupId);
 
 	}
@@ -74,7 +100,7 @@ public partial class GroupMannge : System.Web.UI.Page
 			}
 			catch(Exception Err)
 			{ LabelErr.Text = "המשתמש קיים במערכת"; }
-			PopGrid();
+            PopGrid(((Group)Session["Group"]).GroupId);
 			PopGroupMember(((Group)Session["Group"]).GroupId);
 		}
 	}
@@ -127,5 +153,6 @@ public partial class GroupMannge : System.Web.UI.Page
 	protected void ButtonUpdate_Click(object sender, EventArgs e)
 	{
 		GP.UpdateGroupGroup(((Group)Session["Group"]).GroupId,this.TextBoxGroupName.Text,int.Parse(this.DropDownListKindGourp.SelectedValue));
+		LabelErr.Text = "Fixed :D";
 	}
 }

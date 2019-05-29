@@ -72,7 +72,9 @@ public partial class CreateGroupe : System.Web.UI.Page
         Group.DateGroup = DateTime.Now;
         Group.MenngerGroup = ((UserDetail)Session["User"]).UserId;
         GroupCommand.CreateGroup((Group)Session["Group"]);
-    }
+		Labelerr.Text = "congratulations you opened a new Group";
+
+	}
     protected void GridViewFrends_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         if (e.Row.RowType != DataControlRowType.Header && e.Row.RowType != DataControlRowType.Footer && e.Row.RowType != DataControlRowType.Pager)

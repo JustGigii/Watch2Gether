@@ -8,57 +8,53 @@ using System.Collections;
 /// </summary>
 public class CardDetails
 {
-     string _CardID;
-     decimal  _CreditAmount;
-     UserDetails _User;
-     string _ExpirationDate;
-      string _CompanyName;
-    int _CompanyCode;
-    string _SecurityNumber;
-    Transaction[]  _Transactions;
+     string _CardID;//מספר תעודת זהות
+     decimal  _CreditAmount;//מספר 
+     string _ExpirationDate;//תאריך דפוגה של הכרטיס
+      string _CompanyName;//שם חברה
+    int _CompanyCode;//קוד החברה
+    string _SecurityNumber;//מספר הבטחה
+    Transaction[]  _Transactions;//מבצע עברה תשלום
 
     public CardDetails()
     {
         this._Transactions = new Transaction[0];
-    }
+    }//פעולה בונה
     public Transaction[]  Transactions
     {
         get { return _Transactions; }
         set { _Transactions = value; }
-        }
-public string CardID
+
+
+	}//פרפרטיס של עברה תשלום
+	public string CardID
     {
         get { return _CardID; }
         set { this._CardID = value; }
-    }
-    public decimal CreditAmount
+	}//פרפרטיס של מספר הכרטיס
+	public decimal CreditAmount
     {
         get { return _CreditAmount; }
         set { this._CreditAmount = value; }
-    }
-    public UserDetails User
-{
-        get { return _User; }
-        set { this._User = value; }
-    }
-    public string ExpirationDate
+	}//פרפרטיס של סכום הכסף בחשבון
+	public string ExpirationDate
 {
     get { return _ExpirationDate; }
     set { this._ExpirationDate = value; }
-}
-public string CompanyName
+	}//פרפרטיס של מספר התפוגה של הכרטיס
+	public string CompanyName
 {
     get { return _CompanyName; }
     set { this._CompanyName = value; }
-}
-public int CompanyCode
+	}//פרפרטיס של שם החברה
+	public int CompanyCode
 {
     get { return _CompanyCode; }
     set { this._CompanyCode = value; }
-}
-public string SecurityNumber
+}//מספר החברה
+	public string SecurityNumber
 {
     get { return _SecurityNumber; }
     set { this._SecurityNumber = value; }
-}
+	}//פרפרטיס של מספר הבטחה
 }

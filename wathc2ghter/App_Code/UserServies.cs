@@ -8,24 +8,26 @@ using System.Data.OleDb;
 /// <summary>
 /// Summary description for Class1
 /// </summary>
-public class UserServies
+public class UserServies 
 {
 	protected OleDbCommand Mycommand;//פקודות לבסיס הנתונים
 	protected OleDbDataAdapter adapter;//פעולה מחברת בין בסיס הנתונים לדטה סט
 	protected OleDbConnection MyConnction;//מפעולת חיבור בין בסיס הנתונים לתוכנה
+	protected OleDbTransaction Transaction;//אחרי על מספר שינויים בדטה בייס
 	DataSet ds;//דטה סט
 	public UserServies()
 	{
 		MyConnction = new OleDbConnection(Connect.GetInfo());
 		ds = new DataSet();
 		adapter = new OleDbDataAdapter("select * from Users", Connect.GetInfo());
+		
 		//
 		// TODO: Add constructor logic here
 		//
 	}//פעולה בונה
 	private DataSet Convert2dataset()//פעולה יוצרת טבלה חדשה שיש את כל מה שצריך להכיל בUser
 	{
-		
+
 		DataTable Dt = new DataTable();
 		Dt.TableName = "Users";
 		Dt.Columns.Add("UserId");
@@ -92,7 +94,7 @@ public class UserServies
 		finally { MyConnction.Close(); }
 	}
 	public int IsUserValid(string name, string pass)//בודק עם המשתמש נמצעה בדטה בייס עם נמצאה אז שולח 
-	{ 
+	{
 		try
 		{
 			MyConnction.Open();
@@ -150,9 +152,11 @@ public class UserServies
 		try
 		{
 			MyConnction.Open();
-			Dataset = Convert2dataset();
-			adapter.Fill(ds.Tables["Users"]);
-			return Dataset;
+		//	Dataset = Convert2dataset();
+			adapter.Fill(ds,"Users");
+            ds.Tables["Users"].PrimaryKey = new DataColumn[] { ds.Tables["Users"].Columns["UserId"] };
+            
+			return ds;
 		}
 		catch (Exception Err) { throw Err; }
 		finally { MyConnction.Close(); }
@@ -162,8 +166,9 @@ public class UserServies
 		try
 		{
 			MyConnction.Open();
-			ds = Convert2dataset();
-			adapter.Fill(ds.Tables["Users"]);
+		//	ds = Convert2dataset();
+            adapter.Fill(ds, "Users");
+            ds.Tables["Users"].PrimaryKey = new DataColumn[] { ds.Tables["Users"].Columns["UserId"] };
 			return ds;
 		}
 		catch (Exception Err) { throw Err; }
@@ -202,14 +207,14 @@ public class UserServies
 	}
 	public void UpdateUserServer(UserDetail user)//פעולה מקבלת טבלה ופרטי משתמש
 	{
-        try
-        {
-            MyConnction.Open();
-            Mycommand = new OleDbCommand("UpdateUser", MyConnction);
-            Mycommand.CommandType = CommandType.StoredProcedure;
-            OleDbParameter parm;
-            parm = Mycommand.Parameters.Add("@UserName", OleDbType.BSTR);
-            parm.Value = user.UserName;
+		try
+		{
+			MyConnction.Open();
+			Mycommand = new OleDbCommand("UpdateUser", MyConnction);
+			Mycommand.CommandType = CommandType.StoredProcedure;
+			OleDbParameter parm;
+			parm = Mycommand.Parameters.Add("@UserName", OleDbType.BSTR);
+			parm.Value = user.UserName;
 			parm = Mycommand.Parameters.Add("@State", OleDbType.BSTR);
 			parm.Value = user.State;
 			parm = Mycommand.Parameters.Add("@FirstName", OleDbType.BSTR);
@@ -224,22 +229,22 @@ public class UserServies
 			parm.Value = user.Status;
 			parm = Mycommand.Parameters.Add("@LastName", OleDbType.BSTR);
 			parm.Value = user.LastName;
-			parm = Mycommand.Parameters.Add("@CardID", OleDbType.BSTR);
-			parm.Value = user.CardID;
-			parm = Mycommand.Parameters.Add("@dateCard", OleDbType.BSTR);
-			parm.Value = user.dateCard;
-			parm = Mycommand.Parameters.Add("@SecurityCode", OleDbType.BSTR);
-			parm.Value = user.SecurityCode;
+            //parm = Mycommand.Parameters.Add("@CardID", OleDbType.BSTR);
+            //parm.Value = user.CardID;
+            //parm = Mycommand.Parameters.Add("@dateCard", OleDbType.BSTR);
+            //parm.Value = user.dateCard;
+            //parm = Mycommand.Parameters.Add("@SecurityCode", OleDbType.BSTR);
+            //parm.Value = user.SecurityCode;
 			parm = Mycommand.Parameters.Add("@DateAdd", OleDbType.Date);
 			parm.Value = user.DateAdd;
 			parm = Mycommand.Parameters.Add("@birthday", OleDbType.Date);
 			parm.Value = user.birthday;
 			parm = Mycommand.Parameters.Add("@UserId", OleDbType.Integer);
-            parm.Value = user.UserId;
-            Mycommand.ExecuteNonQuery();
-        }
-        catch (Exception err) { throw err; }
-        finally { MyConnction.Close(); }
+			parm.Value = user.UserId;
+			Mycommand.ExecuteNonQuery();
+		}
+		catch (Exception err) { throw err; }
+		finally { MyConnction.Close(); }
 	}
 	public DataSet PopFriends(int UserId)//פעולה מקבלת userid 
 										 // ומחזירה דטהסט של כל החברים של האדם
@@ -290,7 +295,7 @@ public class UserServies
 	}
 	private void AddMoviesNames(DataSet ds)//הוספת שמות הסרטים מ IMDB לטבלת הסטוריית סרטים למשתמש
 	{
-		
+
 		ds.Tables["UserHistory"].Columns.Add(new DataColumn(("MovieName"), typeof(string)));
 		ds.Tables["GroupHistory"].Columns.Add(new DataColumn(("MovieName"), typeof(string)));
 		ImDb.WebService Db = new ImDb.WebService();
@@ -305,7 +310,7 @@ public class UserServies
 		for (int i = 0; i < ds.Tables["GroupHistory"].Rows.Count; i++)
 		{
 
-			DataRow dr = TableMovies.Rows.Find(ds.Tables["UserHistory"].Rows[i][1]);
+			DataRow dr = TableMovies.Rows.Find(ds.Tables["GroupHistory"].Rows[i]["MovieID"]);
 
 			ds.Tables["GroupHistory"].Rows[i]["MovieName"] = dr["MovieName"];
 		}
@@ -326,11 +331,12 @@ public class UserServies
 		send.TableName = Name;
 		return send;
 	}
-	public void AddToHistory(int Movie, int User)//מוסיף להיסטוריה של משתמש
+	public void AddToHistory(int Movie, int User , bool IsTransaction)//מוסיף להיסטוריה של משתמש
 	{
 		try
 		{
-			MyConnction.Open();
+			if (!IsTransaction)
+				MyConnction.Open();
 			Mycommand = new OleDbCommand("Add2History", MyConnction);
 			Mycommand.CommandType = CommandType.StoredProcedure;
 			OleDbParameter parm;
@@ -340,10 +346,40 @@ public class UserServies
 			parm.Value = DateTime.Now;
 			parm = Mycommand.Parameters.Add("@UserId", OleDbType.Integer);
 			parm.Value = User;
+			if(IsTransaction)
+			Mycommand.Transaction = Transaction;
 			Mycommand.ExecuteNonQuery();
 		}
 		catch (Exception err) { throw err; }
+		finally { if (!IsTransaction) MyConnction.Close(); }
+	}
+	public void AddToGoupHistory(int Movie,int Group, int User)
+	{
+		try
+		{
+			MyConnction.Open();
+			Transaction = MyConnction.BeginTransaction();
+			AddToHistory(Movie, User, true);
+			Mycommand = new OleDbCommand("TheLastGroup", MyConnction);
+			Mycommand.CommandType = CommandType.StoredProcedure;
+			OleDbParameter parm;
+			parm = Mycommand.Parameters.Add("@UserId", OleDbType.Integer);
+			parm.Value = User;
+			Mycommand.Transaction = Transaction;
+			int Watch =int.Parse(Mycommand.ExecuteScalar().ToString());
+			Mycommand = new OleDbCommand("History2Group", MyConnction);
+			Mycommand.CommandType = CommandType.StoredProcedure;
+			parm = Mycommand.Parameters.Add("@GroupId", OleDbType.Integer);
+			parm.Value = Group;
+			parm = Mycommand.Parameters.Add("@WatchId", OleDbType.Integer);
+			parm.Value = Watch;
+			Mycommand.Transaction = Transaction;
+			Mycommand.ExecuteNonQuery();
+			Transaction.Commit();
+		}
+		catch (Exception err) { throw err;}
 		finally { MyConnction.Close(); }
+
 	}
 	public void DeleteUser(int UserId, int FrendsId)//פעולה מוחק חבר מי מאגר החברים
 	{
@@ -377,6 +413,52 @@ public class UserServies
 			Mycommand.ExecuteNonQuery();
 		}
 		catch (Exception err) { throw err; }
+		finally { MyConnction.Close(); }
+	}
+    public DataSet MostView()
+    {
+        try
+        {
+            MyConnction.Open();
+            Mycommand = new OleDbCommand("MostView", MyConnction);
+            Mycommand.CommandType = CommandType.StoredProcedure;
+            ds = new DataSet();
+			adapter = new OleDbDataAdapter(Mycommand);
+			adapter.Fill(ds, "UserHistory");
+			ImDb.WebService Db = new ImDb.WebService();
+			DataTable TableMovies = Db.GetMoviesName();
+			ds.Tables[0].Columns.Add(new DataColumn(("MovieName"), typeof(string)));
+			for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+			{
+
+				DataRow dr = TableMovies.Rows.Find(ds.Tables[0].Rows[i]["MovieID"]);
+
+				ds.Tables[0].Rows[i]["MovieName"] = dr["MovieName"];
+			}
+			return ds;
+        }
+        catch (Exception err)
+        {
+            throw err;
+        }
+        finally { MyConnction.Close(); }
+    }
+	public DataSet MostUserInGroup()
+	{
+		try
+		{
+			MyConnction.Open();
+			Mycommand = new OleDbCommand("MostUserInGroup", MyConnction);
+			Mycommand.CommandType = CommandType.StoredProcedure;
+			ds = new DataSet();
+			adapter = new OleDbDataAdapter(Mycommand);
+			adapter.Fill(ds);
+			return ds;
+		}
+		catch (Exception err)
+		{
+			throw err;
+		}
 		finally { MyConnction.Close(); }
 	}
 }

@@ -16,11 +16,7 @@
             <asp:BoundField DataField="UserName" HeaderText="User Name" />
             <asp:BoundField DataField="FriendId" HeaderText="FriendId" />
             <asp:BoundField DataField="DateStart" HeaderText="Add To frends" />
-            <asp:TemplateField ShowHeader="False">
-                <ItemTemplate>
-                    <asp:Button ID="Button1" runat="server" CausesValidation="false" CommandName="Delete" Text="Delete" />
-                </ItemTemplate>
-            </asp:TemplateField>
+            <asp:CommandField ButtonType="Button" ShowDeleteButton="True" />
         </Columns>
         <FooterStyle BackColor="White" ForeColor="#000066" />
         <HeaderStyle BackColor="#006699" Font-Bold="True" ForeColor="White" />

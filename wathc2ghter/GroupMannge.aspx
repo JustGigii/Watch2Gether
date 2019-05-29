@@ -15,7 +15,6 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <asp:RadioButtonList ID="RadioButtonListGroup" runat="server" AutoPostBack="True" OnSelectedIndexChanged="RadioButtonListGroup_SelectedIndexChanged">
     </asp:RadioButtonList>
-    
     <asp:Table ID="TablePageInterFace" runat="server">
         <asp:TableRow>
             
@@ -32,6 +31,10 @@
         </asp:TableRow>
    </asp:Table>
     
+     <asp:Label ID="LabelErr" runat="server" CssClass="auto-style3"></asp:Label>
+    
+    <br />
+    <asp:Label ID="LabelPeople" style="color: #FFFFFF" Font-Size="XX-Large" runat="server" Text="People in Group"> </asp:Label>
     <asp:GridView ID="GridViewPeopleOnGroup" runat="server" BackColor="White" BorderColor="#E7E7FF" BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Horizontal" AutoGenerateColumns="False" OnRowCommand="GridViewPeopleOnGroup_RowCommand" OnRowDataBound="GridViewPeopleOnGroup_RowDataBound">
         <AlternatingRowStyle BackColor="#F7F7F7" />
         <Columns>
@@ -52,6 +55,8 @@
         <SortedDescendingCellStyle BackColor="#D8D8F0" />
         <SortedDescendingHeaderStyle BackColor="#3E3277" />
     </asp:GridView>
+         <br />
+    <asp:Label ID="LabelFrendlist" style="color: #FFFFFF" Font-Size="XX-Large" runat="server" Text="Your Firend&#39;s List"></asp:Label> 
          <asp:GridView ID="GridViewFrends" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" OnRowCommand="GridViewFrends_RowCommand">
              <Columns>
                  <asp:BoundField DataField="UserName" HeaderText="UserName" />
@@ -68,6 +73,6 @@
              <SortedDescendingCellStyle BackColor="#CAC9C9" />
              <SortedDescendingHeaderStyle BackColor="#00547E" />
     </asp:GridView>
-    <asp:Label ID="LabelErr" runat="server" CssClass="auto-style3"></asp:Label>
+   
 </asp:Content>
 

@@ -10,17 +10,17 @@ using System.Data;
 /// </summary>
 public class Movie_s_Servies
 {
-    DataSet ds;
-    OleDbCommand Command;
-    OleDbConnection Connection;
-    OleDbDataAdapter Adapter;
-    OleDbTransaction tr;
+    DataSet ds;//בונה דטה סט
+    OleDbCommand Command;//פקדות בסיס הנתונים
+    OleDbConnection Connection;// מקשר בין הקוד לבסיס הנתונים
+    OleDbDataAdapter Adapter;//מקשר בין בסיס הנתונים לדטא סט
+    OleDbTransaction tr;//מקשר בין פקודות
 	public Movie_s_Servies()
 	{
 		Connection= new OleDbConnection(Connect.GetInfo());
-	}
-    public DataSet GetAllTheCatlog()
-    {//טענת יציאה: שולח את התמונה והשם ומספר הid של סרט
+	}//פעולה בונה
+    public DataSet GetAllTheCatlog()//טענת יציאה: שולח את התמונה והשם ומספר הid של סרט
+	{
         ds = new DataSet();
         try
         {
@@ -37,8 +37,7 @@ public class Movie_s_Servies
         finally{Connection.Close();}
     }
     public MovieDetails GetMovieDetails(int MovieID)
-    {//טענת כניסה: מקבל id של סרט
-     // אענת יציאה:חזיר את כל הפרטים על הסרט המקובל
+    {
          ds = new DataSet();
          MovieDetails Movie = new MovieDetails();
         try
@@ -72,12 +71,10 @@ public class Movie_s_Servies
         catch (Exception err) { throw err; tr.Rollback(); }
         finally { Connection.Close(); }
     }
-
-   
-
-    public DataSet GetCharacter(DataSet ds,int MovieID)
-    {//טעת כניסה: מקבל מספר סרט
-        // טענת יציאה: מחיז טבלה של שחקנים
+	//טענת כניסה: מקבל id של סרט
+	// אענת יציאה:חזיר את כל הפרטים על הסרט המקובל
+	public DataSet GetCharacter(DataSet ds,int MovieID)
+    {
         try
         {
             Command = new OleDbCommand("ShowPlayersOnMoive", Connection);
@@ -92,11 +89,12 @@ public class Movie_s_Servies
         }
         catch (Exception err) { throw err; }
     }
-    public DataSet GetRevew(DataSet ds, int MovieID)
+	//טעת כניסה: מקבל מספר סרט
+	// טענת יציאה: מחיז טבלה של שחקנים
+	public DataSet GetRevew(DataSet ds, int MovieID)
     {
         try
-        {//טעת כניסה: מקבל מספר סרט
-            // טענת יציאה: מחיז טבלה של ביקורות
+        {
             Command = new OleDbCommand("GetRevivewOnMovie", Connection);
             Command.CommandType = CommandType.StoredProcedure;
             Command.Transaction = tr;
@@ -109,10 +107,12 @@ public class Movie_s_Servies
         }
         catch (Exception err) { throw err; }
     }
+	//טעת כניסה: מקבל מספר סרט
+	// טענת יציאה: מחיז טבלה של ביקורות
 	public string GetUrlAddres(int MovieId)
 	{
 		try
-		{//מקבל את מספר הסרט ומחזיר קישור
+		{
 			Connection.Open();
 			Command = new OleDbCommand("GetAdders", Connection);
 			Command.CommandType = CommandType.StoredProcedure;
@@ -125,8 +125,8 @@ public class Movie_s_Servies
 		catch (Exception Err) { throw Err; }
 		finally { Connection.Close(); }
 
-	}
-    public DataTable GetMoiveName(int[] MovieID)
+	}//מקבל את מספר הסרט ומחזיר קישור
+	public DataTable GetMoiveName(int[] MovieID)
     {
         DataTable send = new DataTable("Movies");
         DataColumn col = new DataColumn(("MovieID"), typeof(int));
@@ -156,9 +156,9 @@ public class Movie_s_Servies
         }
         catch (Exception ERR) { throw ERR; }
         finally{Connection.Close();}
-    }
+    }// מחזיר שם הסרט 
     public int GetMoiveLenght()
-    {//פעולה מחזירה כמה סרטים יש באתר
+    {
         try
         {
             Connection.Open();
@@ -169,10 +169,9 @@ public class Movie_s_Servies
         catch (Exception ERR) { throw ERR; }
         finally { Connection.Close(); }
 
-    }
-
-	public DataSet GetCategory()
-	{//מחזיר את כל הקטגריות הסרטים של האתר
+	}//פעולה מחזירה כמה סרטים יש באתר
+	public DataSet GetCategory()//מחזיר את כל הקטגריות הסרטים של האתר
+	{
 		ds = new DataSet();
 		try
 		{

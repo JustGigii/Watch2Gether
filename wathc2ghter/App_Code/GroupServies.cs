@@ -8,150 +8,150 @@ using System.Data.OleDb;
 /// <summary>
 /// Summary description for GroupServies
 /// </summary>
-public class GroupServies
+public class GroupServies : Connect
 {
-    OleDbCommand command;//פדוקות המתקשרות לבסיס הנתונים	
-    OleDbDataAdapter adapter;//מעביר בין בסיס הנתונים לדטה סט	
-    OleDbConnection Connction = new OleDbConnection(Connect.GetInfo());//פעולת חיבור לבסיס הנתונים
-    DataSet ds;//דטה סט
-    OleDbTransaction tr;//פעולת קישור בין חיברוים לבסיס הנתונים
-    public GroupServies()
-    {
-        //
-        // TODO: Add constructor logic here
-        //
-    }//פעולה בונה
-    public DataTable GetKindGroup() //פעולה צחזירה טבלה של סוג הסרטים שיש באתר 
+	OleDbCommand command;//פדוקות המתקשרות לבסיס הנתונים	
+	OleDbDataAdapter adapter;//מעביר בין בסיס הנתונים לדטה סט	
+	OleDbConnection Connction = new OleDbConnection(Connect.GetInfo());//פעולת חיבור לבסיס הנתונים
+	DataSet ds;//דטה סט
+	OleDbTransaction tr;//פעולת קישור בין חיברוים לבסיס הנתונים
+	public GroupServies()
 	{
-       
-        DataTable DT = new DataTable("KindGroupe");
-        DT.Columns.Add("KindId"); DT.Columns.Add("Kind");
-        try
-        {
-            Connction.Open();
-            this.adapter = new OleDbDataAdapter("select * from KindGroupe", Connction);
-            adapter.Fill(DT);
-            return DT;
-        }
-        catch (Exception Err)
-        {
-            throw Err;
-        }
-        finally
-        {
-            Connction.Close();
-        }
-    }
-    public void CreateGroup(Group Group)//פעולה יוצרת קבוצה חדשה
+		//
+		// TODO: Add constructor logic here
+		//
+	}//פעולה בונה
+	public DataTable GetKindGroup() //פעולה צחזירה טבלה של סוג הסרטים שיש באתר 
 	{
-        try
-        {
-            Connction.Open();
-            tr = Connction.BeginTransaction();
-            command = new OleDbCommand("CreateGroup", Connction);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Transaction = tr;
 
-            OleDbParameter parm;
-            parm = command.Parameters.Add("@GroupName", OleDbType.BSTR);
-            parm.Value = Group.GroupeName;
-            parm = command.Parameters.Add("@KindGroup", OleDbType.Integer);
-            parm.Value = Group.KindGroup;
-            parm = command.Parameters.Add("@MenngerGroup", OleDbType.Integer);
-            parm.Value = Group.MenngerGroup;
-            command.ExecuteNonQuery();
-            Group.GroupId = InsertGroup(Group.MenngerGroup);
-            foreach (int i in Group.GetUsermembers())
-            {
-                AddMemberToGroup(i,Group.GroupId, true);
-            }
-            tr.Commit();
-
-        }
-        catch (Exception err) { throw err; tr.Rollback(); }
-        finally { Connction.Close(); }
-    }
-    public void AddMemberToGroup(int User, int GroupId, bool inTransaction)//הוספה מתשמש לקבוצה בכך שמקבל מספר קבוצה מספר משתמש וכן או לא עם הקשר עם הבסיס הנתונים פתוח
+		DataTable DT = new DataTable("KindGroupe");
+		DT.Columns.Add("KindId"); DT.Columns.Add("Kind");
+		try
+		{
+			Connction.Open();
+			this.adapter = new OleDbDataAdapter("select * from KindGroupe", Connction);
+			adapter.Fill(DT);
+			return DT;
+		}
+		catch (Exception Err)
+		{
+			throw Err;
+		}
+		finally
+		{
+			Connction.Close();
+		}
+	}
+	public void CreateGroup(Group Group)//פעולה יוצרת קבוצה חדשה
 	{
-        try
-        {
-            command = new OleDbCommand("AddMemberToGroup", Connction);
-            command.CommandType = CommandType.StoredProcedure;
-            if (inTransaction) command.Transaction = tr; else Connction.Open();
-            OleDbParameter parm;
-            parm = command.Parameters.Add("@GroupId", OleDbType.BSTR);
-            parm.Value = GroupId;
-            parm = command.Parameters.Add("@UserId", OleDbType.Integer);
-            parm.Value = User;
-            command.ExecuteNonQuery();
-        }
-        catch (Exception err) { throw err; }
-        finally { if (!inTransaction) Connction.Close(); }
+		try
+		{
+			Connction.Open();
+			tr = Connction.BeginTransaction();
+			command = new OleDbCommand("CreateGroup", Connction);
+			command.CommandType = CommandType.StoredProcedure;
+			command.Transaction = tr;
 
-    }
-    public int InsertGroup(int MemberGroup)//מוסיף אדם לקבצה שנפתחה נקבל מספר משתמש
+			OleDbParameter parm;
+			parm = command.Parameters.Add("@GroupName", OleDbType.BSTR);
+			parm.Value = Group.GroupeName;
+			parm = command.Parameters.Add("@KindGroup", OleDbType.Integer);
+			parm.Value = Group.KindGroup;
+			parm = command.Parameters.Add("@MenngerGroup", OleDbType.Integer);
+			parm.Value = Group.MenngerGroup;
+			command.ExecuteNonQuery();
+			Group.GroupId = InsertGroup(Group.MenngerGroup);
+			foreach (int i in Group.GetUsermembers())
+			{
+				AddMemberToGroup(i, Group.GroupId, true);
+			}
+			tr.Commit();
+
+		}
+		catch (Exception err) { throw err; tr.Rollback(); }
+		finally { Connction.Close(); }
+	}
+	public void AddMemberToGroup(int User, int GroupId, bool inTransaction)//הוספה מתשמש לקבוצה בכך שמקבל מספר קבוצה מספר משתמש וכן או לא עם הקשר עם הבסיס הנתונים פתוח
 	{
-      try
-        {
-        command = new OleDbCommand("InsertLastGroup", Connction);
-        command.CommandType = CommandType.StoredProcedure;
-        command.Transaction = tr;
-        OleDbParameter parm;
-        parm = command.Parameters.Add("@MenngerGroup", OleDbType.Integer);
-        parm.Value = MemberGroup;
-        return int.Parse(command.ExecuteScalar().ToString());
-        }
-      catch (Exception err) { throw err; }
-    }
+		try
+		{
+			command = new OleDbCommand("AddMemberToGroup", Connction);
+			command.CommandType = CommandType.StoredProcedure;
+			if (inTransaction) command.Transaction = tr; else Connction.Open();
+			OleDbParameter parm;
+			parm = command.Parameters.Add("@GroupId", OleDbType.BSTR);
+			parm.Value = GroupId;
+			parm = command.Parameters.Add("@UserId", OleDbType.Integer);
+			parm.Value = User;
+			command.ExecuteNonQuery();
+		}
+		catch (Exception err) { throw err; }
+		finally { if (!inTransaction) Connction.Close(); }
+
+	}
+	public int InsertGroup(int MemberGroup)//מוסיף אדם לקבצה שנפתחה נקבל מספר משתמש
+	{
+		try
+		{
+			command = new OleDbCommand("InsertLastGroup", Connction);
+			command.CommandType = CommandType.StoredProcedure;
+			command.Transaction = tr;
+			OleDbParameter parm;
+			parm = command.Parameters.Add("@MenngerGroup", OleDbType.Integer);
+			parm.Value = MemberGroup;
+			return int.Parse(command.ExecuteScalar().ToString());
+		}
+		catch (Exception err) { throw err; }
+	}
 	public DataSet ShowUserGoup(int UserId)//מציג את כל הקבצות של האדם מקבל מספר משתמש
 	{
-        try
-        {
-            command = new OleDbCommand("ShowAllUserGroup", Connction);
-        command.CommandType = CommandType.StoredProcedure;
-        Connction.Open();
-        OleDbParameter parm;
-        parm = command.Parameters.Add("@UserId", OleDbType.Integer);
-        parm.Value = UserId;
-        adapter = new OleDbDataAdapter(command);
-        ds = new DataSet();
-        adapter.Fill(ds,"Group");
-        return ds;
-        }
-        catch (Exception err) { throw err; }
-        finally { Connction.Close(); }
-    }
-    public Group GetGroupToWatch(int GroupId,int MovieId)//מקבל מספר קבוצה ומספר סרט מחזיר את כל המידע על הקבוצה
+		try
+		{
+			command = new OleDbCommand("ShowAllUserGroup", Connction);
+			command.CommandType = CommandType.StoredProcedure;
+			Connction.Open();
+			OleDbParameter parm;
+			parm = command.Parameters.Add("@UserId", OleDbType.Integer);
+			parm.Value = UserId;
+			adapter = new OleDbDataAdapter(command);
+			ds = new DataSet();
+			adapter.Fill(ds, "Group");
+			return ds;
+		}
+		catch (Exception err) { throw err; }
+		finally { Connction.Close(); }
+	}
+	public Group GetGroupToWatch(int GroupId, int MovieId)//מקבל מספר קבוצה ומספר סרט מחזיר את כל המידע על הקבוצה
 	{
-        Group Gr = new Group();
-        Gr.GroupId = GroupId;
-        try
-        {
-            Connction.Open();
+		Group Gr = new Group();
+		Gr.GroupId = GroupId;
+		try
+		{
+			Connction.Open();
 			tr = Connction.BeginTransaction();
 			command = new OleDbCommand("PopGroup", Connction);
-            command.CommandType = CommandType.StoredProcedure;
-            OleDbParameter parm;
+			command.CommandType = CommandType.StoredProcedure;
+			OleDbParameter parm;
 			command.Transaction = tr;
-            parm = command.Parameters.Add("@GroupId", OleDbType.Integer);
-            parm.Value = GroupId;
-            adapter = new OleDbDataAdapter(command);
-            ds = new DataSet();
-            adapter.Fill(ds, "Group");
-            Gr.GroupeName= ds.Tables["Group"].Rows[0]["GroupName"].ToString();
-            Gr.KindGroup = int.Parse(ds.Tables["Group"].Rows[0]["KindGroup"].ToString());
-            Gr.MenngerGroup = int.Parse(ds.Tables["Group"].Rows[0]["MenngerGroup"].ToString());
-            Gr.DateGroup = DateTime.Parse((ds.Tables["Group"].Rows[0]["DateGroup"].ToString()));
-            Gr.StatusGroup = bool.Parse((ds.Tables["Group"].Rows[0]["StatusGroup"].ToString()));
-            Gr.SetUsermembers(GetPoepleInGroup(GroupId));
+			parm = command.Parameters.Add("@GroupId", OleDbType.Integer);
+			parm.Value = GroupId;
+			adapter = new OleDbDataAdapter(command);
+			ds = new DataSet();
+			adapter.Fill(ds, "Group");
+			Gr.GroupeName = ds.Tables["Group"].Rows[0]["GroupName"].ToString();
+			Gr.KindGroup = int.Parse(ds.Tables["Group"].Rows[0]["KindGroup"].ToString());
+			Gr.MenngerGroup = int.Parse(ds.Tables["Group"].Rows[0]["MenngerGroup"].ToString());
+			Gr.DateGroup = DateTime.Parse((ds.Tables["Group"].Rows[0]["DateGroup"].ToString()));
+			Gr.StatusGroup = bool.Parse((ds.Tables["Group"].Rows[0]["StatusGroup"].ToString()));
+			Gr.SetUsermembers(GetPoepleInGroup(GroupId));
 			Gr.MovieID = MovieId;
-			Gr.CurrentTime= 0;
+			Gr.CurrentTime = 0;
 			tr.Commit();
 			return Gr;
-        }
-        catch (Exception err) { throw err; }
-        finally { Connction.Close(); }
-    }
+		}
+		catch (Exception err) { throw err; }
+		finally { Connction.Close(); }
+	}
 	public List<int> GetPoepleInGroup(int Group)//מחזיר את כל האנשים בקבוצה
 	{
 		try
@@ -162,12 +162,12 @@ public class GroupServies
 			OleDbParameter parm;
 			parm = command.Parameters.Add("@GroupId", OleDbType.Integer);
 			parm.Value = Group;
-			OleDbDataReader read =  command.ExecuteReader();
+			OleDbDataReader read = command.ExecuteReader();
 			List<int> Poeple = new List<int>();
 			while (read.Read())
 			{
-				if(read.GetInt32(1) == 1)
-				Poeple.Add(read.GetInt32(0));
+				if (read.GetInt32(1) == 1)
+					Poeple.Add(read.GetInt32(0));
 			}
 			return Poeple;
 		}
@@ -206,39 +206,39 @@ public class GroupServies
 			switch (int.Parse(ds.Tables[0].Rows[i]["StatusJoin"].ToString()))
 			{
 				case 1:
-				ds.Tables[0].Rows[i]["SatusName"] = "Online";
-			break;
+					ds.Tables[0].Rows[i]["SatusName"] = "Online";
+					break;
 				case 5:
-			ds.Tables[0].Rows[i]["SatusName"] = "Waiting";
-			break;
-			case 10: 
-			ds.Tables[0].Rows[i]["SatusName"] = "Ofline";
-			break;
-		}
+					ds.Tables[0].Rows[i]["SatusName"] = "Waiting";
+					break;
+				case 10:
+					ds.Tables[0].Rows[i]["SatusName"] = "Ofline";
+					break;
 			}
 		}
+	}
 	public DataSet GetGroupCanMannge(int UserId)//הפעולה מקבל משתמש ומחזירה את כל הקבוצות שמשתמש מנהל שלה
-    {
-          try
-        {
-              ds = new DataSet();
-            Connction.Open();
-            command = new OleDbCommand("GetAllUserGroupMannge", Connction);
-            command.CommandType = CommandType.StoredProcedure; 
-            OleDbParameter parm;
-            parm = command.Parameters.Add("@UserId", OleDbType.BSTR);
-            parm.Value = UserId;
-            adapter = new OleDbDataAdapter(command);
-            adapter.Fill(ds);
-            return ds;
-        }
-          catch (Exception err)
-          {
-              throw err;
-          }
-        finally{Connction.Close();}
-    }
-	public void UpdateToWating(int GroupId, int UserId,int Status)//הפעולה מקבלת מספר משתמש מספר קבוצה ומשנה את הסטטוס שלו 
+	{
+		try
+		{
+			ds = new DataSet();
+			Connction.Open();
+			command = new OleDbCommand("GetAllUserGroupMannge", Connction);
+			command.CommandType = CommandType.StoredProcedure;
+			OleDbParameter parm;
+			parm = command.Parameters.Add("@UserId", OleDbType.BSTR);
+			parm.Value = UserId;
+			adapter = new OleDbDataAdapter(command);
+			adapter.Fill(ds);
+			return ds;
+		}
+		catch (Exception err)
+		{
+			throw err;
+		}
+		finally { Connction.Close(); }
+	}
+	public void UpdateToWating(int GroupId, int UserId, int Status)//הפעולה מקבלת מספר משתמש מספר קבוצה ומשנה את הסטטוס שלו 
 	{
 		try
 		{
@@ -246,13 +246,13 @@ public class GroupServies
 			command = new OleDbCommand("MakeOnline", Connction);
 			command.CommandType = CommandType.StoredProcedure;
 			OleDbParameter parm;
-            parm = command.Parameters.Add("@Status", OleDbType.Integer);
-            parm.Value = Status;
+			parm = command.Parameters.Add("@Status", OleDbType.Integer);
+			parm.Value = Status;
 			parm = command.Parameters.Add("@GroupId", OleDbType.Integer);
 			parm.Value = GroupId;
 			parm = command.Parameters.Add("@UserId", OleDbType.Integer);
 			parm.Value = UserId;
-			
+
 			command.ExecuteNonQuery();
 
 		}
@@ -302,7 +302,7 @@ public class GroupServies
 		}
 		finally { Connction.Close(); }
 	}
-	public void UpdateGroupGroup(int GroupId,string name, int Kind)
+	public void UpdateGroupGroup(int GroupId, string name, int Kind)
 	{
 
 		try
@@ -325,4 +325,5 @@ public class GroupServies
 		}
 		finally { Connction.Close(); }
 	}//הפעולה עדכון קבוצה
+    
 }

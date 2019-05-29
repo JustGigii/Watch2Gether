@@ -10,12 +10,13 @@ using System.Data.OleDb;
 public class Connect
 {
 	//קישור לדאטה בייס
-    static string connectionString = @"Provider=Microsoft.Jet.oledb.4.0; data source=" + HttpContext.Current.Server.MapPath(@"~\App_Data\Movie2gether.mdb");
-	public Connect()
+	static string connectionString = @"Provider=Microsoft.Jet.oledb.4.0; data source=" + HttpContext.Current.Server.MapPath(@"~\App_Data\Movie2gether.mdb");
+	public Connect()//פעולה בונה
 	{
 	}
-    public static string GetInfo()
-    { //הפעולה מחזירה את השירשור לכניסה של הדטה בייס
-        return connectionString;
-    }
+
+	public static string GetInfo()//הפעולה מחזירה את השירשור לכניסה של הדטה בייס
+	{ 
+		return connectionString;
+	}
 }

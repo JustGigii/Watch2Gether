@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Connect">
+    <Position X="1" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Code\Connect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Group">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAEAEIAAAAIAAEACAACAAgCAAAAmwoAAEwmCAAAA=</HashCode>
+      <FileName>App_Code\Group.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GroupsDetails">
+    <Position X="13.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAACAAAABAAAAAAAAAAAgAA=</HashCode>
+      <FileName>App_Code\GroupsDetails.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GroupServies">
+    <Position X="6.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAACAAgEIAEAAAACAIAgAARSAAAgAAACAAAAAGY=</HashCode>
+      <FileName>App_Code\GroupServies.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimerW2G">
+    <Position X="13.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAgAAAAAAAAAAAAAAAAAAACAIAAAAAAAAA=</HashCode>
+      <FileName>App_Code\Timer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UserDetail">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAEACEgAEQIAAcEAkhAAAEAABQGCQAADCgEACw=</HashCode>
+      <FileName>App_Code\UserDetail.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UserServies">
+    <Position X="3.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAQAAEBAACACABAAEAAEQgAAACgAIjAAA=</HashCode>
+      <FileName>App_Code\UserServies.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

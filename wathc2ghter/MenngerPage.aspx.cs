@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using System.Configuration;
+using System.Web.UI.DataVisualization.Charting;
 
 public partial class MenngerPage1 : System.Web.UI.Page
 {
@@ -14,16 +16,21 @@ public partial class MenngerPage1 : System.Web.UI.Page
     int sum = 0;
     protected void Page_Load(object sender, EventArgs e)
     {
-        Member = new UserDetail();
-        Commands = new UserServies();
-            DS = new DataSet();
-		DS = Commands.FillAllUsers();
-		popGird();
-
+        if (!Page.IsPostBack)
+        {
+			if (Session["User"] == null)
+				Response.Redirect("HomePage.aspx");
+            popGird();
+            PopAnalyis();
+        }
 
 	}
     public void popGird()
     {//הפעולה מציגה את הטבלה
+       
+        Commands = new UserServies();
+        DS = new DataSet();
+        DS = Commands.FillAllUsers();
         this.GridViewUsers.DataSource = DS; 
         this.GridViewUsers.DataBind();
     }
@@ -50,7 +57,14 @@ public partial class MenngerPage1 : System.Web.UI.Page
         {
             if (e.Row.RowState == (DataControlRowState.Edit | DataControlRowState.Alternate) || e.Row.RowState == (DataControlRowState.Edit | DataControlRowState.Normal))
             {
-                for (int i = 1; i <= 12; i++)
+				string xml = "https://gist.githubusercontent.com/nathanhornby/4727009/raw/86eea19828e19455fe4082a989521f32f7006e9a/XML%2520Country%2520List";
+				DataSet ds = new DataSet();
+				ds.ReadXml(xml);
+				DropDownList DropDownListState =(DropDownList) e.Row.Cells[4].FindControl("DropDownListState");
+				DropDownListState.DataSource = ds;
+				DropDownListState.DataTextField = "handle";
+				DropDownListState.DataBind();
+				for (int i = 1; i <= 12; i++)
                 {
                     object o = e.Row.Cells[5].FindControl("DropDownListMonth");
                     ((DropDownList)(e.Row.Cells[5].FindControl("DropDownListMonth"))).Items.Add(i.ToString());
@@ -77,6 +91,7 @@ public partial class MenngerPage1 : System.Web.UI.Page
     {//הפונקציה מעדכמת את פרטי המשתמש
         try
         {
+            Member = new UserDetail();
             Member.UserId = int.Parse(GridViewUsers.Rows[e.RowIndex].Cells[0].Text);
             Member.UserName = ((TextBox)(GridViewUsers.Rows[e.RowIndex].Cells[1].Controls[0])).Text;
             Member.FirstName = GridViewUsers.Rows[e.RowIndex].Cells[2].Text;
@@ -88,9 +103,10 @@ public partial class MenngerPage1 : System.Web.UI.Page
             Member.KindUser = int.Parse(((DropDownList)(GridViewUsers.Rows[e.RowIndex].Cells[8].FindControl("DropDownListKindUser"))).SelectedValue);
             Member.Status = bool.Parse(((RadioButtonList)(GridViewUsers.Rows[e.RowIndex].Cells[9].FindControl("RadioButtonListStatus"))).SelectedValue);
             Member.DateAdd = DateTime.Parse(GridViewUsers.Rows[e.RowIndex].Cells[10].Text);
-			Member.CardID = ((TextBox)(GridViewUsers.Rows[e.RowIndex].Cells[11].Controls[0])).Text;
-            Member.dateCard = ((TextBox)(GridViewUsers.Rows[e.RowIndex].Cells[12].Controls[0])).Text;
-            Member.SecurityCode = ((TextBox)(GridViewUsers.Rows[e.RowIndex].Cells[13].Controls[0])).Text;
+            //Member.CardID = ((TextBox)(GridViewUsers.Rows[e.RowIndex].Cells[11].Controls[0])).Text;
+            //Member.dateCard = ((TextBox)(GridViewUsers.Rows[e.RowIndex].Cells[12].Controls[0])).Text;
+            //Member.SecurityCode = ((TextBox)(GridViewUsers.Rows[e.RowIndex].Cells[13].Controls[0])).Text;
+            Commands = new UserServies();
             Commands.UpdateUserServer(Member);
             this.GridViewUsers.EditIndex = -1;
             popGird();
@@ -99,7 +115,9 @@ public partial class MenngerPage1 : System.Web.UI.Page
     }
     private void SordAndFilter(string sort, string filter)
     {
-        DataView View = new DataView(DS.Tables["Users"]);
+		UserServies us = new UserServies();
+		DS = us.FillAllUsers();
+        DataView View = new DataView(DS.Tables[0]);
         View.Sort = sort;
         View.RowFilter = filter;
         this.GridViewUsers.DataSource = View;
@@ -188,4 +206,22 @@ public partial class MenngerPage1 : System.Web.UI.Page
         }
         SordAndFilter(sort, filter);
     }
+	public void PopAnalyis()
+	{
+		UserServies user = new UserServies();
+		this.GridViewGroup.DataSource = user.MostUserInGroup();
+		this.GridViewGroup.DataBind();
+		this.GridViewViewTheBestMovie.DataSource = user.MostView();
+		this.GridViewViewTheBestMovie.DataBind();
+		this.ChartMoives.DataSource = user.MostView();
+		this.ChartMoives.Series[0].XValueMember = "MovieName";
+		this.ChartMoives.Series[0].YValueMembers = "WachID";
+		this.ChartMoives.DataBind();
+		this.ChartGroup.DataSource = user.MostUserInGroup();
+		this.ChartGroup.Series[0].XValueMember = "GroupName";
+		this.ChartGroup.Series[0].YValueMembers = "UserId";
+		this.ChartGroup.DataBind();
+
+
+	}
 }

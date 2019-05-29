@@ -59,13 +59,15 @@ public partial class MasterPage : System.Web.UI.MasterPage
 
 	protected void ListBoxInvate_SelectedIndexChanged(object sender, EventArgs e)
 	{
-		Response.Redirect("TheViewMovie.aspx?m=" + ListBoxInvate.SelectedValue);
+		Response.Redirect("TheViewMovie.aspx?G=" + ListBoxInvate.SelectedValue);
 	}
 	public void PopIvateGroup()
 	{//מציג את כל הקבוצו שהוזמנתה
-		this.ListBoxInvateGroup.Items.Clear();
+		
 		GroupServies Gp = new GroupServies();
 		DataSet ds = Gp.ShowInvateGroup(((UserDetail)Session["User"]).UserId);
+		if (ds.Tables[0].Rows.Count<0)
+		this.ListBoxInvateGroup.Items.Clear();
 		this.ListBoxInvateGroup.DataSource = ds;
 		this.ListBoxInvateGroup.DataTextField=ds.Tables[0].Columns[1].ToString();
 		this.ListBoxInvateGroup.DataValueField=ds.Tables[0].Columns[0].ToString();
@@ -75,6 +77,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
 	protected void ListBoxInvateGroup_SelectedIndexChanged(object sender, EventArgs e)
 	{//מאשר הזמנה לקבוצה
 		GroupServies Gp = new GroupServies();
+		if(Session["User"] != null)
 		Gp.UpdateToWating(int.Parse(ListBoxInvateGroup.SelectedValue), ((UserDetail)Session["User"]).UserId, 1);
 	}
 }

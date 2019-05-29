@@ -16,12 +16,12 @@ public partial class TheViewMovie : System.Web.UI.Page
 	public Group Gr;
 	protected void Page_Load(object sender, EventArgs e)
 	{
-            if (Request.QueryString["m"] == null || Session["User"] == null)
+            if (Request.QueryString["G"] == null || Session["User"] == null)
                 Response.Redirect("HomePage.aspx");
             else
             {
                
-                GroupId = int.Parse(Request.QueryString["m"]);
+                GroupId = int.Parse(Request.QueryString["G"]);
                 //if (((GroupsDetails) Page.Application["Rooms"]).Rooms.Count != 0)
                 GroupsDetails groupsDetails = (GroupsDetails)Cache.Get("Rooms");
                 if (groupsDetails.Rooms.Count != 0)
@@ -31,15 +31,26 @@ public partial class TheViewMovie : System.Web.UI.Page
                     this.LabelCurrent.Text = Gr.CurrentTime.ToString();
                     Gr.EndMovie = int.Parse(this.LabelEend.Text);
                     //startTimer(Gr.MenngerGroup, ((UserDetail)Session["User"]).UserId);
-                }
+					if(Gr.Active)
+					Page.ClientScript.RegisterStartupScript(this.ButtonStop.GetType(), "startVideo", "playVideo()", true);
+					else
+					Page.ClientScript.RegisterStartupScript(this.ButtonStop.GetType(), "pauseVideo", "pauseVideo()", true);
+
+			}
                 else
                 {
                     this.LabelCurrent.Text = "0";
                 }
                 ImDb.WebService ImDb = new ImDb.WebService();
-                MovieUrl = ImDb.GetURLAddress(int.Parse(Request.QueryString["m"]));
+                MovieUrl = ImDb.GetURLAddress(Gr.MovieID);
             }
-            PopChat();
+		if (Gr != null)
+			PopChat();
+		else
+		{
+			this.TextBoxChat.Visible = false;
+			this.TextBoxMessge.Visible = false;
+		}
 		
 	}
 	protected void Buttonplay_Click(object sender, EventArgs e)
@@ -53,6 +64,7 @@ public partial class TheViewMovie : System.Web.UI.Page
 	}
 	public void PopChat()
 	{
+		
         this.TextBoxChat.Text = Gr.Chat;
 	}
 
@@ -63,4 +75,17 @@ public partial class TheViewMovie : System.Web.UI.Page
         this.TextBoxChat.Text = Gr.Chat;
         PopChat();
     }
+
+	protected void ButtonStop_Click(object sender, EventArgs e)
+	{
+		Gr.Active = false;
+		Page.ClientScript.RegisterStartupScript(this.ButtonStop.GetType(), "pauseVideo", "pauseVideo()",true);
+
+	}
+
+	protected void ButtonStart_Click(object sender, EventArgs e)
+	{
+		Gr.Active = true;
+		Page.ClientScript.RegisterStartupScript(this.ButtonStop.GetType(), "startVideo", "playVideo()", true);
+	}
 }

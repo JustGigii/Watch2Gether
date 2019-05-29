@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Connect">
+    <Position X="8.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Code\Connect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Movie_s_Servies">
+    <Position X="5.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAggAAAMACAQABBAAAAAQgAAQCAACAAAAAAA=</HashCode>
+      <FileName>App_Code\Movie's Servies.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MovieDetails">
+    <Position X="3.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAEEIAAAAAAAAYgABAQRFAAAACEhCAA=</HashCode>
+      <FileName>App_Code\MovieDetails.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebService">
+    <Position X="10.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABEAAAAAIAAEAAAAAAAAAAAgAAQAAAAAAAAAAA=</HashCode>
+      <FileName>App_Code\WebService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

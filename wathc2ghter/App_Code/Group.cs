@@ -19,10 +19,12 @@ public class Group
     int _MovieID;//מספר הסרט משצה ע"י ה-webservice
 	string _Chat; // הציג את השיחה בין האנשים באתר
 	int _EndMovie;//מחזיר מתי הסרט נגמר
+	bool _Active;//מחזיר עם הרט פועל או לא פועל
 	public Group()
 	{
 		_CurrentTime = 0;
         UserMembers = new List<int>();
+		_Active = true;
 		//
 		// TODO: Add constructor logic here
 		//
@@ -102,4 +104,9 @@ public class Group
 		get { return this._EndMovie; }
 		set { this._EndMovie = value; }
 	}//פעולה Get וSet של סוף הסרט
+	public bool Active//פעולה Get וSet של פעלות הסרט
+	{
+		get { return _Active; }
+		set { _Active = value;}
+	}
 }

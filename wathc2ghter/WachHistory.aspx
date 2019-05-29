@@ -4,11 +4,11 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
-    <asp:GridView ID="GridViewHistoryUser" runat="server" BackColor="#CCCCCC" BorderColor="#999999" BorderStyle="Solid" BorderWidth="3px" CellPadding="4" CellSpacing="2" ForeColor="Black" DataKeyNames="MovieID" AutoGenerateColumns="False">
+    <asp:GridView ID="GridViewHistoryUser" runat="server" BackColor="#CCCCCC" BorderColor="#999999" CssClass="center" EditRowStyle-CssClass="center"  BorderStyle="Solid" BorderWidth="3px" CellPadding="4" CellSpacing="2" ForeColor="Black" DataKeyNames="MovieID" AutoGenerateColumns="False">
         <Columns>
             <asp:BoundField DataField="UserName" HeaderText="UserName" />
-            <asp:BoundField DataField="DateWatch" HeaderText="DateWatch" />
             <asp:BoundField DataField="MovieName" HeaderText="MovieName" />
+            <asp:BoundField DataField="DateWatch"  dataformatstring="{0:d}" HeaderText="DateWatch" />
         </Columns>
         <FooterStyle BackColor="#CCCCCC" />
         <HeaderStyle BackColor="Tomato" Font-Bold="True" ForeColor="White" />
@@ -21,11 +21,11 @@
         <SortedDescendingHeaderStyle BackColor="#383838" />
     </asp:GridView>
 
-    <asp:GridView ID="GridViewHistoryGroup" runat="server" BackColor="#CCCCCC" BorderColor="#999999" BorderStyle="Solid" BorderWidth="3px" CellPadding="4" CellSpacing="2" ForeColor="Black" DataKeyNames="MovieID" AutoGenerateColumns="False">
+    <asp:GridView ID="GridViewHistoryGroup" runat="server" AlternatingRowStyle-CssClass='auto-style1'  BackColor="#CCCCCC" BorderColor="#999999" BorderStyle="Solid" BorderWidth="3px" CellPadding="4" CellSpacing="2" ForeColor="Black" DataKeyNames="MovieID" AutoGenerateColumns="False">
         <Columns>
             <asp:BoundField DataField="GroupName" HeaderText="GroupName" />
             <asp:BoundField DataField="MovieName" HeaderText="MovieName" />
-            <asp:BoundField DataField="WatchDate" HeaderText="WatchDate" />
+            <asp:BoundField DataField="WatchDate"  dataformatstring="{0:d}" HeaderText="WatchDate" />
         </Columns>
         <FooterStyle BackColor="#CCCCCC" />
         <HeaderStyle BackColor="Tomato" Font-Bold="True" ForeColor="White" />

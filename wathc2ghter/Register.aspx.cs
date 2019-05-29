@@ -81,11 +81,14 @@ public partial class Register1 : System.Web.UI.Page
         try
         {
             UserServies.AddUser(User);
+			Session["User"] = User;
+			((List<UserDetail>)Page.Application["Users"]).Add(User);
+            Response.Redirect("HomePage.aspx");
         }
         catch (Exception err)
         {
             Labelerr.Text = err.Message;
         }
-        Session["User"] = User;
+       
     }
 }

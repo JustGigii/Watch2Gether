@@ -9,36 +9,37 @@ using System.Data;
 
 public partial class HomePage : System.Web.UI.Page
 {
-    DataSet DS;
-    protected void Page_Load(object sender, EventArgs e)
-    {
+	public string MovieID;
+	DataSet DS;
+	protected void Page_Load(object sender, EventArgs e)
+	{
 
 		DS = (DataSet)Page.Application["Catlog"];
-        if (!Page.IsPostBack)
-        {
-           
-            PopCatalog();
-			PopCategory();
-        }
-      
-    }
-    public void PopCatalog()
-    {
-        
-        this.DataListCatalog.DataSource = DS;
-         this.DataListCatalog.DataBind();
-    }
-    protected void DataListCatalog_ItemCommand(object source, DataListCommandEventArgs e)
-    {
-        if (e.CommandName == "show")
-        {
-            int rowNum = e.Item.ItemIndex;
-            string MovieID = DataListCatalog.DataKeys[rowNum].ToString();
-            
+		if (!Page.IsPostBack)
+		{
 
-            Response.Redirect("ExmpleMovie.aspx?m="+MovieID);
-        }
-    }
+			PopCatalog();
+			PopCategory();
+
+		}
+		MovieID = (string)ViewState["num"];
+	}
+	public void PopCatalog()
+	{
+
+		this.DataListCatalog.DataSource = DS;
+		this.DataListCatalog.DataBind();
+	}
+	protected void DataListCatalog_ItemCommand(object source, DataListCommandEventArgs e)
+	{
+		if (e.CommandName == "show")
+		{
+			int rowNum = e.Item.ItemIndex;
+			ViewState["num"] = DataListCatalog.DataKeys[rowNum].ToString();
+			MovieID = (string)ViewState["num"];
+			Response.Redirect("ExmpleMovie.aspx?m=" + MovieID);
+		}
+	}
 	protected void ButtonSortNFilter_Click(object sender, EventArgs e)
 	{
 		string world = this.TextBoxSerch.Text;
@@ -71,6 +72,7 @@ public partial class HomePage : System.Web.UI.Page
 					filter += " MoiveName like '*" + world + "'";
 					break;
 			}
+			filter += (DropDownListCategory.SelectedValue != "") ? " and categoryID ='" + DropDownListCategory.SelectedValue + "'" : "";
 		}
 		SordAndFilter(sort, filter);
 	}
@@ -92,13 +94,5 @@ public partial class HomePage : System.Web.UI.Page
 		this.DropDownListCategory.DataBind();
 		ListItem Ls = new ListItem("All", "");
 		this.DropDownListCategory.Items.Add(Ls);
-
-	}
-
-	protected void ButtonCategory_Click(object sender, EventArgs e)
-	{
-		string sort = "categoryID";
-		string filter = (DropDownListCategory.SelectedValue != "")? "categoryID ='" + DropDownListCategory.SelectedValue + "'":""  ;
-		SordAndFilter(sort, filter);
 	}
 }
