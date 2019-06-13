@@ -1,0 +1,61 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+<link href="Styles/MyStyle.css" rel="stylesheet" />
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="Content/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
+    <title></title>
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder> 
+    </head>
+<body class="container-fluid table-dark">
+    <form id="form1" runat="server">
+    <div>
+            
+            <Table ID="Table1" runat="server" BackColor="#FF3300">
+                <tr>
+                <td  BorderStyle="Solid" class="container-fluid col-3 w-125">
+                     <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+                 </asp:ContentPlaceHolder>  
+                </td>
+                 <td  BorderStyle="Solid" class="container-fluid col-9">
+                     <asp:ListBox ID="ListBoxInvateGroup" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ListBoxInvateGroup_SelectedIndexChanged" class="list-group-item list-group-item-danger">
+                         <asp:ListItem>Not invite yet</asp:ListItem>
+                     </asp:ListBox>
+                     <br />
+                     <asp:ListBox ID="ListBoxInvate" runat="server" OnSelectedIndexChanged="ListBoxInvate_SelectedIndexChanged" AutoPostBack="True" CssClass="list-group-item list-group-item-danger" style="left: -1px; top: 0px" >
+                         <asp:ListItem>Not invite yet</asp:ListItem>
+                     </asp:ListBox>
+        <asp:Menu ID="Menu1" runat="server">
+                     <Items>
+                         <asp:MenuItem NavigateUrl="HomePage.aspx" Text="HomePage" Value="HomePage"></asp:MenuItem>
+                     </Items>
+            </asp:Menu>   
+                     <asp:ListBox ID="ListBoxOnllineUser" runat="server" CssClass="list-group-item list-group-item-danger"></asp:ListBox>
+               </td>
+                </tr>
+            </Table>
+      <script src="Scripts/jquery-1.9.0.min.js" type="text/javascript"></script>
+ 
+   <script type="text/javascript">
+       $(function () {
+           //to fix collapse mode width issue
+           $(".nav li,.nav li a,.nav li ul").removeAttr('style');
+ 
+           //for dropdown menu
+           $(".dropdown-menu").parent().removeClass().addClass('dropdown');
+           $(".dropdown>a").removeClass().addClass('dropdown-toggle').append('<b class="caret"></b>').attr('data-toggle', 'dropdown');
+ 
+           //remove default click redirect effect           
+           $('.dropdown-toggle').attr('onclick', '').off('click');
+ 
+       });
+   </script>
+   <script src="Scripts/bootstrap.min.js" type="text/javascript"></script>
+    </div>
+    </form>
+</body>
+</html>

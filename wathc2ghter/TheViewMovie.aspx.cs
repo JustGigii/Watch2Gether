@@ -6,6 +6,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 
+
+
 public partial class TheViewMovie : System.Web.UI.Page
 {
 	public static int s = 0;
@@ -17,7 +19,13 @@ public partial class TheViewMovie : System.Web.UI.Page
 	protected void Page_Load(object sender, EventArgs e)
 	{
             if (Request.QueryString["G"] == null || Session["User"] == null)
-                Response.Redirect("HomePage.aspx");
+			if (Request.QueryString["m"] != null)
+			{
+				ImDb.WebService ImDb = new ImDb.WebService();
+				MovieUrl = ImDb.GetURLAddress(int.Parse(Request.QueryString["m"]));
+			}
+			else
+				Response.Redirect("HomePage.aspx");
             else
             {
                
